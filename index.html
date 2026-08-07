@@ -3,481 +3,969 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SCL-90 症状自评量表 · 心理健康自测</title>
+<title>SCL-90 心理健康自测 · 好好照顾自己</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 <style>
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
   :root{
-    --bg-1:#eef5f7; --bg-2:#dce9ec;
-    --ink:#16292e; --ink-soft:#4a6168; --ink-faint:#7d9098;
-    --brand:#0d7d8a; --brand-deep:#0a5e68; --brand-soft:#e3f1f3;
-    --accent:#e8845f; --accent-soft:#fbe9e0;
-    --card:#ffffff; --line:#e1eaec;
-    --green:#3fae7a; --lime:#d9b441; --orange:#e88a3c; --red:#d9534f;
-    --green-bg:#e7f5ee; --lime-bg:#fbf4dd; --orange-bg:#fbe9da; --red-bg:#fbe7e6;
-    --shadow:0 18px 50px -28px rgba(13,80,90,.45);
+    --cream:#fdf6f0;
+    --cream-2:#fef9f3;
+    --warm-bg:#faf3ec;
+    --card:#ffffff;
+    --coral:#f4a261;
+    --coral-light:#f8c794;
+    --coral-soft:#fde8d4;
+    --mint:#95d5b2;
+    --mint-deep:#74c69d;
+    --mint-soft:#d8f3dc;
+    --lavender:#cdb4db;
+    --lavender-soft:#ede4f0;
+    --honey:#e9c46a;
+    --rose:#e8a0b0;
+    --text:#4a4036;
+    --text-soft:#8a7e72;
+    --text-light:#b0a598;
+    --border:#f0e6dc;
     --radius:20px;
-    --sans:"PingFang SC","Microsoft YaHei","Hiragino Sans GB","Helvetica Neue",Arial,sans-serif;
+    --radius-sm:14px;
+    --shadow:0 6px 24px rgba(196,154,108,.08);
+    --shadow-lg:0 12px 44px rgba(196,154,108,.12);
+    --shadow-soft:0 2px 12px rgba(196,154,108,.06);
+    --transition:all .35s cubic-bezier(.4,0,.2,1);
   }
-  *{box-sizing:border-box;margin:0;padding:0}
-  html,body{height:100%}
+  html{font-size:16px;scroll-behavior:smooth}
   body{
-    font-family:var(--sans);
-    color:var(--ink);
-    background:
-      radial-gradient(1200px 600px at 12% -8%,#eaf4f6 0%,transparent 55%),
-      radial-gradient(1000px 700px at 110% 110%,#e6f0ef 0%,transparent 55%),
-      linear-gradient(160deg,var(--bg-1),var(--bg-2));
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    background:linear-gradient(160deg,#fdf6f0 0%,#fef0e6 35%,#f3ecef 70%,#ede4f0 100%);
     background-attachment:fixed;
-    min-height:100%;
-    line-height:1.6;
+    color:var(--text);
+    min-height:100vh;
+    line-height:1.8;
     -webkit-font-smoothing:antialiased;
   }
-  .wrap{max-width:760px;margin:0 auto;padding:28px 18px 80px}
-  .card{
-    background:var(--card);border:1px solid var(--line);
-    border-radius:var(--radius);box-shadow:var(--shadow);
-    overflow:hidden;
+
+  .float-deco{
+    position:fixed;border-radius:50%;
+    pointer-events:none;z-index:0;
+    filter:blur(40px);opacity:.35;
+    animation:floatY 12s ease-in-out infinite;
   }
-  .screen{display:none;animation:fade .45s ease}
-  .screen.active{display:block}
-  @keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
-  @media(prefers-reduced-motion:reduce){.screen{animation:none}.screen{opacity:1;transform:none}}
-  .topbar{
-    display:flex;align-items:center;gap:12px;
-    padding:22px 26px 0;
+  .float-deco.d1{width:220px;height:220px;background:var(--coral-soft);top:8%;left:-60px;animation-delay:0s}
+  .float-deco.d2{width:180px;height:180px;background:var(--mint-soft);top:45%;right:-50px;animation-delay:-4s}
+  .float-deco.d3{width:160px;height:160px;background:var(--lavender-soft);bottom:10%;left:5%;animation-delay:-8s}
+  @keyframes floatY{0%,100%{transform:translateY(0) translateX(0)}50%{transform:translateY(-24px) translateX(12px)}}
+
+  .app{max-width:720px;margin:0 auto;padding:24px 16px 60px;position:relative;z-index:1}
+  @media(min-width:640px){.app{padding:36px 20px 60px}}
+
+  .intro-screen{
+    background:rgba(255,255,255,.82);
+    backdrop-filter:blur(12px);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow-lg);
+    padding:52px 36px 44px;
+    text-align:center;
+    animation:fadeUp .7s ease;
+    border:1px solid rgba(255,255,255,.6);
   }
-  .logo{
-    width:42px;height:42px;border-radius:12px;flex:none;
-    background:linear-gradient(145deg,var(--brand),var(--brand-deep));
-    display:grid;place-items:center;color:#fff;font-weight:700;font-size:18px;
-    box-shadow:0 8px 18px -8px rgba(13,125,138,.7);
+  @media(max-width:640px){.intro-screen{padding:36px 20px 32px}}
+
+  .breath-circle{
+    width:110px;height:110px;margin:0 auto 28px;
+    position:relative;
   }
-  .brand-titles h1{font-size:17px;letter-spacing:.5px}
-  .brand-titles p{font-size:12px;color:var(--ink-faint)}
-  .hero{padding:30px 30px 8px}
-  .hero .eyebrow{
-    display:inline-block;font-size:12px;letter-spacing:2px;color:var(--brand);
-    background:var(--brand-soft);padding:5px 12px;border-radius:999px;font-weight:600;
+  .breath-circle .ring{
+    position:absolute;inset:0;border-radius:50%;
+    background:radial-gradient(circle at 35% 35%,var(--coral-light),var(--coral));
+    box-shadow:0 0 40px rgba(244,162,97,.4);
+    animation:breathe 5s ease-in-out infinite;
   }
-  .hero h2{font-size:28px;line-height:1.32;margin:14px 0 10px;letter-spacing:-.3px}
-  .hero p.lead{color:var(--ink-soft);font-size:15px}
-  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;padding:26px 30px}
-  .stat{background:var(--brand-soft);border-radius:16px;padding:16px;text-align:center}
-  .stat b{display:block;font-size:24px;color:var(--brand-deep);line-height:1.1}
-  .stat span{font-size:12px;color:var(--ink-soft)}
-  .points{padding:6px 30px 8px}
-  .points li{list-style:none;display:flex;gap:12px;padding:11px 0;border-bottom:1px dashed var(--line)}
-  .points li:last-child{border-bottom:none}
-  .points .ico{flex:none;width:24px;height:24px;border-radius:7px;background:var(--brand-soft);color:var(--brand-deep);
-    display:grid;place-items:center;font-size:13px;font-weight:700}
-  .points .t b{display:block;font-size:14px}
-  .points .t span{font-size:12.5px;color:var(--ink-soft)}
-  .notice{margin:18px 30px;padding:14px 16px;border-radius:14px;background:var(--accent-soft);
-    display:flex;gap:11px;font-size:13px;color:#9a4f2f;border:1px solid #f3d8c6}
-  .notice svg{flex:none;margin-top:1px}
-  .cta-row{padding:8px 30px 32px}
+  .breath-circle .ring2{
+    position:absolute;inset:-16px;border-radius:50%;
+    border:2px solid rgba(244,162,97,.25);
+    animation:breatheRing 5s ease-in-out infinite;
+  }
+  @keyframes breathe{
+    0%,100%{transform:scale(.78);opacity:.75}
+    50%{transform:scale(1.08);opacity:1}
+  }
+  @keyframes breatheRing{
+    0%,100%{transform:scale(.7);opacity:.2}
+    50%{transform:scale(1.2);opacity:.5}
+  }
+  .breath-label{
+    position:absolute;top:50%;left:50%;
+    transform:translate(-50%,-50%);
+    color:#fff;font-size:.75rem;font-weight:600;
+    letter-spacing:.1em;opacity:.9;
+    animation:breathText 5s ease-in-out infinite;
+  }
+  @keyframes breathText{
+    0%,100%{content:"呼气..."}
+    50%{content:"吸气..."}
+  }
+
+  .intro-screen h1{
+    font-size:1.7rem;font-weight:700;
+    color:var(--text);
+    margin-bottom:6px;letter-spacing:-.01em;
+  }
+  .intro-screen .heart-sub{
+    font-size:.95rem;color:var(--text-soft);
+    margin-bottom:6px;
+  }
+  .intro-screen .subtitle{
+    font-size:.85rem;color:var(--text-light);
+    margin-bottom:32px;
+  }
+
+  .intro-features{
+    display:grid;grid-template-columns:repeat(3,1fr);
+    gap:12px;margin:28px 0;
+  }
+  @media(max-width:560px){.intro-features{grid-template-columns:1fr}}
+  .feature-item{
+    background:var(--warm-bg);
+    border-radius:var(--radius-sm);padding:22px 12px;
+    text-align:center;
+    border:1px solid var(--border);
+  }
+  .feature-item .icon{font-size:1.7rem;margin-bottom:8px;line-height:1}
+  .feature-item .label{font-size:.82rem;color:var(--text-soft);font-weight:500}
+  .feature-item .value{font-size:1.35rem;font-weight:700;color:var(--coral);margin-bottom:2px}
+
+  .intro-note{
+    background:linear-gradient(135deg,var(--mint-soft),var(--lavender-soft));
+    border-radius:var(--radius-sm);padding:24px 26px;
+    margin:24px 0;text-align:left;
+    border:1px solid rgba(149,213,178,.2);
+  }
+  .intro-note h3{
+    font-size:.95rem;color:var(--text);
+    margin-bottom:12px;display:flex;align-items:center;gap:8px;
+    font-weight:600;
+  }
+  .intro-note ul{list-style:none;padding:0}
+  .intro-note li{
+    font-size:.88rem;color:var(--text-soft);
+    padding:5px 0;padding-left:24px;position:relative;
+    line-height:1.6;
+  }
+  .intro-note li::before{
+    content:"";position:absolute;left:2px;top:13px;
+    width:8px;height:8px;border-radius:50%;
+    background:var(--mint-deep);
+  }
+
   .btn{
-    appearance:none;border:none;cursor:pointer;font-family:inherit;font-size:15px;font-weight:600;
-    border-radius:14px;padding:15px 24px;transition:transform .15s ease,box-shadow .2s ease,background .2s;
-    display:inline-flex;align-items:center;gap:9px;justify-content:center;
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    padding:15px 40px;border:none;border-radius:50px;
+    font-size:1.05rem;font-weight:600;cursor:pointer;
+    transition:var(--transition);text-decoration:none;
+    font-family:inherit;letter-spacing:.02em;
   }
-  .btn:active{transform:translateY(1px)}
   .btn-primary{
-    background:linear-gradient(135deg,var(--brand),var(--brand-deep));color:#fff;width:100%;
-    box-shadow:0 14px 30px -12px rgba(13,125,138,.8);
+    background:linear-gradient(135deg,var(--coral),var(--rose));
+    color:#fff;box-shadow:0 8px 24px rgba(244,162,97,.35);
   }
-  .btn-primary:hover{box-shadow:0 18px 36px -12px rgba(13,125,138,.9)}
-  .btn-ghost{background:#f0f5f6;color:var(--ink-soft)}
-  .btn-ghost:hover{background:#e6edee}
-  .progress-wrap{padding:22px 30px 4px}
-  .progress-meta{display:flex;justify-content:space-between;font-size:12.5px;color:var(--ink-faint);margin-bottom:8px}
-  .progress-meta b{color:var(--brand-deep);font-size:14px}
-  .bar{height:8px;background:#eaf1f2;border-radius:999px;overflow:hidden}
-  .bar > i{display:block;height:100%;width:0;border-radius:999px;
-    background:linear-gradient(90deg,var(--brand),#1aa6b4);transition:width .35s ease}
-  .qstage{padding:18px 30px 30px;min-height:340px}
-  .qindex{font-size:12px;color:var(--brand);font-weight:600;letter-spacing:1px}
-  .qtext{font-size:21px;line-height:1.5;margin:8px 0 22px;font-weight:600;letter-spacing:-.2px}
-  .opts{display:grid;gap:11px}
-  .opt{
-    display:flex;align-items:center;gap:14px;padding:15px 18px;border:1.5px solid var(--line);
-    border-radius:14px;background:#fbfdfe;cursor:pointer;transition:all .16s ease;
-    text-align:left;font-size:15px;color:var(--ink);width:100%;font-family:inherit;
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(244,162,97,.45)}
+  .btn-primary:active{transform:translateY(0)}
+  .btn-ghost{
+    background:rgba(255,255,255,.7);color:var(--text);
+    border:1.5px solid var(--border);
   }
-  .opt:hover{border-color:#bfe0e4;background:#f4fafb}
-  .opt .dot{flex:none;width:22px;height:22px;border-radius:50%;border:2px solid #c4d6d9;
-    display:grid;place-items:center;font-size:12px;font-weight:700;color:var(--ink-faint);transition:all .16s}
-  .opt .lbl b{display:block;font-size:15px}
-  .opt .lbl span{font-size:12px;color:var(--ink-faint)}
-  .opt.sel{border-color:var(--brand);background:var(--brand-soft);box-shadow:0 8px 20px -14px rgba(13,125,138,.8)}
-  .opt.sel .dot{background:var(--brand);border-color:var(--brand);color:#fff}
-  .nav-row{display:flex;gap:12px;padding:0 30px 30px}
-  .nav-row .btn{flex:1}
-  .res-head{padding:28px 30px 6px}
-  .res-head .eyebrow{display:inline-block;font-size:12px;letter-spacing:2px;color:var(--accent);
-    background:var(--accent-soft);padding:5px 12px;border-radius:999px;font-weight:600}
-  .res-head h2{font-size:26px;margin:13px 0 7px}
-  .res-head p{color:var(--ink-soft);font-size:14px}
-  .gauge{
-    margin:18px 30px;padding:22px;border-radius:18px;text-align:center;color:#fff;
-    background:linear-gradient(135deg,var(--brand),var(--brand-deep));position:relative;overflow:hidden;
+  .btn-ghost:hover{border-color:var(--coral);color:var(--coral)}
+  .btn-large{padding:17px 52px;font-size:1.1rem}
+
+  .quiz-screen{display:none;animation:fadeUp .5s ease}
+  .quiz-header{
+    background:rgba(255,255,255,.85);
+    backdrop-filter:blur(10px);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow-soft);
+    padding:18px 24px;margin-bottom:14px;
+    position:sticky;top:10px;z-index:50;
+    border:1px solid rgba(255,255,255,.5);
   }
-  .gauge::after{content:"";position:absolute;inset:0;background:
-    radial-gradient(220px 120px at 80% -20%,rgba(255,255,255,.25),transparent)}
-  .gauge .lv{font-size:13px;letter-spacing:2px;opacity:.92;position:relative}
-  .gauge .num{font-size:50px;font-weight:700;line-height:1.1;margin:4px 0;position:relative}
-  .gauge .desc{font-size:13.5px;opacity:.95;position:relative;max-width:460px;margin:0 auto}
-  .metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;padding:6px 30px}
-  .metric{background:#fbfdfe;border:1px solid var(--line);border-radius:14px;padding:15px 10px;text-align:center}
-  .metric b{display:block;font-size:24px;color:var(--brand-deep);line-height:1.1}
-  .metric span{font-size:11.5px;color:var(--ink-soft);display:block;margin-top:3px}
-  .section-title{font-size:16px;font-weight:700;margin:30px 30px 4px;display:flex;align-items:center;gap:9px}
-  .section-title .bar-l{width:4px;height:16px;border-radius:3px;background:var(--brand)}
-  .section-sub{font-size:12.5px;color:var(--ink-faint);margin:0 30px 16px}
-  .radar-box{padding:6px 20px 6px}
-  .radar-card{background:#fbfdfe;border:1px solid var(--line);border-radius:18px;padding:18px 12px}
-  .radar-svg{width:100%;height:auto;display:block}
-  .legend{display:flex;flex-wrap:wrap;gap:8px 16px;justify-content:center;margin-top:8px}
-  .legend span{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--ink-soft)}
-  .legend i{width:11px;height:11px;border-radius:3px;display:inline-block}
-  .factor-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:6px 30px}
-  .fcard{border:1px solid var(--line);border-radius:14px;padding:14px 15px;background:#fff;position:relative;overflow:hidden}
-  .fcard::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--ink-faint)}
-  .fcard.l-green::before{background:var(--green)} .fcard.l-lime::before{background:var(--lime)}
-  .fcard.l-orange::before{background:var(--orange)} .fcard.l-red::before{background:var(--red)}
-  .fcard .ft{display:flex;justify-content:space-between;align-items:center;gap:8px}
-  .fcard .fn{font-size:14px;font-weight:600}
-  .fcard .fs{font-size:13px;font-weight:700;color:var(--ink-soft)}
-  .fbar{height:6px;background:#eef3f4;border-radius:999px;margin:10px 0 7px;overflow:hidden}
-  .fbar > i{display:block;height:100%;width:0;border-radius:999px;transition:width 1s ease}
-  .fcard.l-green .fbar>i{background:var(--green)} .fcard.l-lime .fbar>i{background:var(--lime)}
-  .fcard.l-orange .fbar>i{background:var(--orange)} .fcard.l-red .fbar>i{background:var(--red)}
-  .fcard .fl{font-size:11.5px;padding:2px 8px;border-radius:999px;font-weight:600;display:inline-block}
-  .fcard.l-green .fl{background:var(--green-bg);color:#1f7a55}
-  .fcard.l-lime .fl{background:var(--lime-bg);color:#9a7a12}
-  .fcard.l-orange .fl{background:var(--orange-bg);color:#a85b1d}
-  .fcard.l-red .fl{background:var(--red-bg);color:#a8302c}
-  .fcard .fd{font-size:12px;color:var(--ink-soft);margin-top:7px}
-  .disclaimer{margin:14px 30px 6px;padding:15px 16px;border-radius:14px;background:#fbf3ed;
-    border:1px solid #f1ddca;font-size:12.5px;color:#8a5230;line-height:1.65}
-  .disclaimer b{display:block;margin-bottom:4px}
-  .actions{display:flex;gap:12px;padding:6px 30px 30px}
-  .actions .btn{flex:1}
-  @media(max-width:560px){
-    .stats{grid-template-columns:repeat(3,1fr)}
-    .metrics{grid-template-columns:repeat(2,1fr)}
-    .factor-grid{grid-template-columns:1fr}
-    .hero h2{font-size:24px}
-    .qtext{font-size:19px}
-    .gauge .num{font-size:40px}
+  .progress-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+  .progress-label{font-size:.82rem;color:var(--text-soft);font-weight:500}
+  .progress-count{font-size:.82rem;color:var(--coral);font-weight:700}
+  .progress-bar-wrap{height:10px;background:var(--coral-soft);border-radius:20px;overflow:hidden}
+  .progress-bar-fill{
+    height:100%;border-radius:20px;
+    background:linear-gradient(90deg,var(--coral),var(--honey),var(--mint-deep));
+    transition:width .5s cubic-bezier(.4,0,.2,1);
+    width:0%;box-shadow:0 0 12px rgba(244,162,97,.3);
   }
-  .foot{text-align:center;font-size:12px;color:var(--ink-faint);margin-top:8px}
+
+  .encourage-banner{
+    text-align:center;font-size:.85rem;color:var(--text-soft);
+    margin-bottom:14px;font-style:italic;
+    opacity:0;transition:opacity .6s ease;
+    min-height:1.4em;
+  }
+  .encourage-banner.show{opacity:1}
+
+  .question-group{display:flex;flex-direction:column;gap:12px}
+  .question-card{
+    background:rgba(255,255,255,.9);
+    backdrop-filter:blur(6px);
+    border-radius:var(--radius-sm);
+    box-shadow:var(--shadow-soft);
+    padding:22px 22px 18px;
+    transition:var(--transition);
+    border:2px solid transparent;
+    animation:slideIn .4s ease;
+  }
+  .question-card.answered{border-color:rgba(149,213,178,.5);background:rgba(255,255,255,.95)}
+  .question-number{
+    display:inline-flex;align-items:center;justify-content:center;
+    width:26px;height:26px;border-radius:50%;
+    background:linear-gradient(135deg,var(--coral),var(--honey));
+    color:#fff;font-size:.75rem;font-weight:700;
+    margin-right:10px;flex-shrink:0;
+  }
+  .question-text{
+    font-size:1rem;font-weight:500;color:var(--text);
+    display:flex;align-items:flex-start;gap:0;
+    margin-bottom:14px;line-height:1.6;
+  }
+  .question-text .q-num{flex-shrink:0}
+  .question-text .q-content{flex:1}
+  .options{display:flex;gap:6px;flex-wrap:wrap}
+  @media(min-width:480px){.options{flex-wrap:nowrap}}
+  .option{
+    flex:1;min-width:56px;
+    padding:11px 6px;border:2px solid var(--border);
+    border-radius:12px;background:var(--warm-bg);
+    cursor:pointer;text-align:center;
+    transition:var(--transition);
+    font-size:.82rem;font-weight:500;color:var(--text-soft);
+    user-select:none;
+  }
+  .option:hover{border-color:var(--coral-light);color:var(--coral);transform:translateY(-1px)}
+  .option .opt-num{
+    display:block;font-size:1.05rem;font-weight:700;
+    margin-bottom:2px;
+  }
+  .option.selected{
+    background:linear-gradient(135deg,var(--coral),var(--coral-light));
+    color:#fff;border-color:transparent;
+    box-shadow:0 4px 16px rgba(244,162,97,.3);
+    transform:translateY(-1px);
+  }
+  .option.selected .opt-num{color:#fff}
+
+  .quiz-nav{
+    display:flex;justify-content:space-between;
+    margin-top:22px;gap:12px;
+  }
+
+  .result-screen{display:none;animation:fadeUp .6s ease}
+  .result-header{text-align:center;margin-bottom:28px}
+  .result-header .result-emoji{font-size:2.2rem;margin-bottom:8px}
+  .result-header h2{font-size:1.55rem;color:var(--text);margin-bottom:6px;font-weight:700}
+  .result-header p{color:var(--text-soft);font-size:.92rem}
+
+  .result-summary{
+    display:grid;grid-template-columns:repeat(2,1fr);
+    gap:12px;margin-bottom:24px;
+  }
+  @media(min-width:600px){.result-summary{grid-template-columns:repeat(4,1fr)}}
+  .summary-card{
+    background:rgba(255,255,255,.9);
+    border-radius:var(--radius-sm);
+    box-shadow:var(--shadow-soft);padding:20px 14px;
+    text-align:center;transition:var(--transition);
+    border:1px solid var(--border);
+  }
+  .summary-card .label{font-size:.76rem;color:var(--text-soft);margin-bottom:8px}
+  .summary-card .value{font-size:1.7rem;font-weight:700;line-height:1.2}
+  .summary-card .unit{font-size:.68rem;color:var(--text-light);margin-top:4px}
+  .summary-card.warm .value{color:var(--coral)}
+  .summary-card.mint .value{color:var(--mint-deep)}
+  .summary-card.lav .value{color:#9d6fb0}
+  .summary-card.honey .value{color:#c8961f}
+
+  .chart-section{
+    background:rgba(255,255,255,.9);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);padding:30px 24px;
+    margin-bottom:20px;border:1px solid var(--border);
+  }
+  .chart-section h3{
+    font-size:1.08rem;color:var(--text);
+    margin-bottom:4px;text-align:center;font-weight:600;
+  }
+  .chart-section .chart-desc{
+    text-align:center;font-size:.82rem;
+    color:var(--text-soft);margin-bottom:18px;
+  }
+  .chart-container{
+    position:relative;width:100%;
+    max-width:400px;margin:0 auto;
+    aspect-ratio:1;
+  }
+
+  .factor-list{margin-bottom:20px}
+  .factor-item{
+    background:rgba(255,255,255,.9);
+    border-radius:var(--radius-sm);
+    box-shadow:var(--shadow-soft);padding:18px 20px;
+    margin-bottom:8px;display:flex;align-items:center;gap:16px;
+    transition:var(--transition);
+    border:1px solid var(--border);
+    border-left:4px solid var(--mint-deep);
+  }
+  .factor-item.gentle{border-left-color:var(--mint-deep)}
+  .factor-item.notice{border-left-color:var(--honey)}
+  .factor-item.care{border-left-color:var(--coral)}
+  .factor-info{flex:1;min-width:0}
+  .factor-name{font-size:.92rem;font-weight:600;color:var(--text);margin-bottom:2px}
+  .factor-desc{font-size:.76rem;color:var(--text-soft);line-height:1.5}
+  .factor-score-box{text-align:right;flex-shrink:0}
+  .factor-score-val{font-size:1.25rem;font-weight:700}
+  .factor-score-label{font-size:.7rem;color:var(--text-soft)}
+  .factor-bar{
+    width:100%;height:6px;background:var(--cream);
+    border-radius:10px;margin-top:6px;overflow:hidden;
+  }
+  .factor-bar-fill{height:100%;border-radius:10px;transition:width 1s ease}
+
+  .interpretation-box{
+    background:linear-gradient(135deg,rgba(216,243,220,.5),rgba(237,228,240,.5));
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);padding:30px 26px;
+    margin-bottom:20px;
+    border:1px solid rgba(149,213,178,.2);
+  }
+  .interpretation-box h3{
+    font-size:1.05rem;color:var(--text);
+    margin-bottom:16px;display:flex;align-items:center;gap:8px;
+    font-weight:600;
+  }
+  .interp-level{
+    display:inline-block;padding:7px 20px;
+    border-radius:50px;font-size:.88rem;font-weight:600;
+    margin-bottom:16px;
+  }
+  .interp-level.good{background:rgba(116,198,157,.2);color:var(--mint-deep)}
+  .interp-level.gentle{background:rgba(233,196,106,.2);color:#b8860b}
+  .interp-level.care{background:rgba(244,162,97,.2);color:var(--coral)}
+  .interp-text{font-size:.9rem;color:var(--text-soft);line-height:1.9}
+  .interp-text strong{color:var(--text)}
+
+  .disclaimer-box{
+    background:linear-gradient(135deg,#fff8f0,#fef5ed);
+    border-radius:var(--radius-sm);padding:20px 22px;
+    margin-bottom:22px;border:1px solid rgba(233,196,106,.25);
+  }
+  .disclaimer-box h4{
+    font-size:.88rem;color:var(--coral);margin-bottom:8px;
+    display:flex;align-items:center;gap:6px;font-weight:600;
+  }
+  .disclaimer-box p{font-size:.8rem;color:var(--text-soft);line-height:1.7}
+
+  .result-actions{
+    display:flex;gap:12px;justify-content:center;flex-wrap:wrap;
+  }
+
+  @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes slideIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+  ::-webkit-scrollbar{width:8px}
+  ::-webkit-scrollbar-track{background:transparent}
+  ::-webkit-scrollbar-thumb{background:rgba(196,154,108,.18);border-radius:10px}
+  ::-webkit-scrollbar-thumb:hover{background:rgba(196,154,108,.3)}
+
+  .option:focus-visible{outline:3px solid var(--mint-deep);outline-offset:2px}
+  .btn:focus-visible{outline:3px solid var(--mint-deep);outline-offset:2px}
+
+  @media print{
+    .float-deco,.quiz-nav,.result-actions{display:none}
+    .intro-screen,.quiz-screen{display:none}
+    body{background:#fff}
+  }
 </style>
 </head>
 <body>
-<div class="wrap">
-  <div class="card">
-    <section class="screen active" id="screen-welcome">
-      <div class="topbar">
-        <div class="logo">S</div>
-        <div class="brand-titles">
-          <h1>SCL-90 症状自评量表</h1>
-          <p>Symptom Checklist 90 · 心理健康自测工具</p>
-        </div>
+<div class="float-deco d1"></div>
+<div class="float-deco d2"></div>
+<div class="float-deco d3"></div>
+
+<div class="app">
+
+  <section class="intro-screen" id="introScreen">
+    <div class="breath-circle">
+      <div class="ring2"></div>
+      <div class="ring"></div>
+      <div class="breath-label" id="breathLabel">吸气...</div>
+    </div>
+    <h1>花几分钟，好好照顾自己</h1>
+    <p class="heart-sub">SCL-90 心理健康自评量表</p>
+    <p class="subtitle">这不是考试，没有标准答案，只是和自己的一次对话</p>
+
+    <div class="intro-features">
+      <div class="feature-item">
+        <div class="icon">📋</div>
+        <div class="value">90</div>
+        <div class="label">道温柔的提问</div>
       </div>
-      <div class="hero">
-        <span class="eyebrow">专业心理测评</span>
-        <h2>了解自己当下的<br>心理健康状态</h2>
-        <p class="lead">SCL-90 由 L.R. Derogatis 于 1975 年编制，是国际上应用最广泛的心理症状评定量表之一，覆盖躯体化、抑郁、焦虑等 9 个心理症状维度。</p>
+      <div class="feature-item">
+        <div class="icon">🌿</div>
+        <div class="value">9</div>
+        <div class="label">个维度的觉察</div>
       </div>
-      <div class="stats">
-        <div class="stat"><b>90</b><span>道题目</span></div>
-        <div class="stat"><b>9</b><span>个症状因子</span></div>
-        <div class="stat"><b>5</b><span>级评分</span></div>
+      <div class="feature-item">
+        <div class="icon">☕</div>
+        <div class="value">~15</div>
+        <div class="label">分钟的独处时光</div>
       </div>
-      <ul class="points">
-        <li><div class="ico">1</div><div class="t"><b>作答方式</b><span>根据最近一周以来的实际感受，选择最贴近自己的程度</span></div></li>
-        <li><div class="ico">2</div><div class="t"><b>五级评分</b><span>从「没有」到「严重」共 5 个等级，无对错之分</span></div></li>
-        <li><div class="ico">3</div><div class="t"><b>结果呈现</b><span>完成后获得总分、因子均分与九维因子雷达图</span></div></li>
+    </div>
+
+    <div class="intro-note">
+      <h3>🍃 开始之前</h3>
+      <ul>
+        <li>找一个安静舒服的角落，让自己慢慢放松下来</li>
+        <li>回想<strong>最近一周</strong>的真实感受，凭直觉就好</li>
+        <li>每题有5个程度：没有 → 很轻 → 中度 → 偏重 → 严重</li>
+        <li>你的回答只对自己可见，完全私密，放心就好</li>
       </ul>
-      <div class="notice">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9a4f2f" stroke-width="2"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg>
-        <span>本量表为心理健康自我筛查工具，结果仅供参考，不能替代专业医师的临床诊断。如有持续不适，请及时寻求专业帮助。</span>
+    </div>
+
+    <button class="btn btn-primary btn-large" onclick="startQuiz()">
+      准备好了，开始 →
+    </button>
+  </section>
+
+  <section class="quiz-screen" id="quizScreen">
+    <div class="quiz-header">
+      <div class="progress-top">
+        <span class="progress-label">慢慢来，不着急</span>
+        <span class="progress-count" id="progressText">0 / 90</span>
       </div>
-      <div class="cta-row">
-        <button class="btn btn-primary" id="startBtn">开始自测
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-        </button>
+      <div class="progress-bar-wrap">
+        <div class="progress-bar-fill" id="progressBar"></div>
       </div>
-    </section>
-    <section class="screen" id="screen-quiz">
-      <div class="topbar">
-        <div class="logo">S</div>
-        <div class="brand-titles">
-          <h1>SCL-90 症状自评量表</h1>
-          <p>请根据最近一周的真实感受作答</p>
-        </div>
+    </div>
+    <div class="encourage-banner" id="encourageBanner"></div>
+    <div class="question-group" id="questionGroup"></div>
+    <div class="quiz-nav">
+      <button class="btn btn-ghost" id="prevBtn" onclick="prevPage()" style="visibility:hidden">← 上一页</button>
+      <button class="btn btn-ghost" id="nextBtn" onclick="nextPage()">下一页 →</button>
+    </div>
+  </section>
+
+  <section class="result-screen" id="resultScreen">
+    <div class="result-header">
+      <div class="result-emoji" id="resultEmoji">🌱</div>
+      <h2 id="resultTitle">谢谢你完成了这次自我对话</h2>
+      <p id="resultSubtitle">以下是基于你作答情况的温柔分析</p>
+    </div>
+
+    <div class="result-summary" id="resultSummary"></div>
+
+    <div class="chart-section">
+      <h3>🌿 你的心理维度图谱</h3>
+      <p class="chart-desc">九个维度的自我觉察（虚线为全国常模参考）</p>
+      <div class="chart-container">
+        <canvas id="radarChart"></canvas>
       </div>
-      <div class="progress-wrap">
-        <div class="progress-meta">
-          <span>题目进度</span>
-          <span><b id="qCur">1</b> / 90</span>
-        </div>
-        <div class="bar"><i id="barFill"></i></div>
+    </div>
+
+    <div class="factor-list" id="factorList"></div>
+
+    <div class="interpretation-box">
+      <h3>💌 写给你</h3>
+      <div id="interpretationContent"></div>
+    </div>
+
+    <div class="disclaimer-box">
+      <h4>🌿 温馨提醒</h4>
+      <p>这份量表是一面镜子，帮你看见自己的状态，但它不能代替专业的诊断。如果结果让你有些担心，或者你正经历困扰，请相信寻求帮助是勇敢的选择。你可以联系专业心理咨询师，或拨打全国心理援助热线 <strong>400-161-9995</strong>。无论结果如何，你都值得被温柔对待。</p>
+    </div>
+
+    <div class="result-actions">
+      <button class="btn btn-primary" onclick="restartQuiz()">重新测一次</button>
+      <button class="btn btn-ghost" onclick="window.print()">保存这份结果</button>
+    </div>
+  </section>
+
+</div>
+
+<script>
+const questions = [
+  {n:1,t:"头痛"},{n:2,t:"神经过敏，心中不踏实"},{n:3,t:"头脑中有不必要的想法或字句盘旋"},
+  {n:4,t:"头昏或昏倒"},{n:5,t:"对异性的兴趣减退"},{n:6,t:"对旁人责备求全"},
+  {n:7,t:"感到别人能控制您的思想"},{n:8,t:"责怪别人制造麻烦"},{n:9,t:"忘记性大"},
+  {n:10,t:"担心自己的衣饰整齐及仪态的端正"},{n:11,t:"容易烦恼和激动"},{n:12,t:"胸痛"},
+  {n:13,t:"害怕空旷的场所或街道"},{n:14,t:"感到自己的精力下降，活动减慢"},{n:15,t:"想结束自己的生命"},
+  {n:16,t:"听到旁人听不到的声音"},{n:17,t:"发抖"},{n:18,t:"感到大多数人都不可信任"},
+  {n:19,t:"胃口不好"},{n:20,t:"容易哭泣"},{n:21,t:"同异性相处时感到害羞不自在"},
+  {n:22,t:"感到受骗，中了圈套或有人想抓住您"},{n:23,t:"无缘无故地忽然感到害怕"},{n:24,t:"自己不能控制地大发脾气"},
+  {n:25,t:"怕单独出门"},{n:26,t:"经常责怪自己"},{n:27,t:"腰痛"},
+  {n:28,t:"感到难以完成任务"},{n:29,t:"感到孤独"},{n:30,t:"感到苦闷"},
+  {n:31,t:"过分担忧"},{n:32,t:"对事物不感兴趣"},{n:33,t:"感到害怕"},
+  {n:34,t:"您的感情容易受到伤害"},{n:35,t:"旁人能知道您的私下想法"},{n:36,t:"感到别人不理解您，不同情您"},
+  {n:37,t:"感到人们对您不友好，不喜欢您"},{n:38,t:"做事必须做得很慢以保证做得正确"},{n:39,t:"心跳得很厉害"},
+  {n:40,t:"恶心或胃部不舒服"},{n:41,t:"感到比不上他人"},{n:42,t:"肌肉酸痛"},
+  {n:43,t:"感到有人在监视您、谈论您"},{n:44,t:"难以入睡"},{n:45,t:"做事必须反复检查"},
+  {n:46,t:"难以作出决定"},{n:47,t:"怕乘电车、公共汽车、地铁或火车"},{n:48,t:"呼吸有困难"},
+  {n:49,t:"一阵阵发冷或发热"},{n:50,t:"因为感到害怕而避开某些东西、场合或活动"},{n:51,t:"脑子变空了"},
+  {n:52,t:"身体发麻或刺痛"},{n:53,t:"喉咙有梗塞感"},{n:54,t:"感到前途没有希望"},
+  {n:55,t:"不能集中注意"},{n:56,t:"感到身体的某一部分软弱无力"},{n:57,t:"感到紧张或容易紧张"},
+  {n:58,t:"感到手或脚发重"},{n:59,t:"想到死亡的事"},{n:60,t:"吃得太多"},
+  {n:61,t:"当别人看着您或谈论您时感到不自在"},{n:62,t:"有一些不属于您自己的想法"},{n:63,t:"有想打人或伤害他人的冲动"},
+  {n:64,t:"醒得太早"},{n:65,t:"必须反复洗手、点数目或触摸某些东西"},{n:66,t:"睡得不稳不深"},
+  {n:67,t:"有想摔坏或破坏东西的冲动"},{n:68,t:"有一些别人没有的想法或念头"},{n:69,t:"感到对别人神经过敏"},
+  {n:70,t:"在商店或电影院等人多的地方感到不自在"},{n:71,t:"感到任何事情都很困难"},{n:72,t:"一阵阵恐惧或惊恐"},
+  {n:73,t:"感到公共场合吃东西很不舒服"},{n:74,t:"经常与人争论"},{n:75,t:"单独一人时神经很紧张"},
+  {n:76,t:"别人对您的成绩没有做出恰当的评价"},{n:77,t:"即使和别人在一起也感到孤单"},{n:78,t:"感到坐立不安心神不定"},
+  {n:79,t:"感到自己没有什么价值"},{n:80,t:"感到熟悉的东西变成陌生或不像是真的"},{n:81,t:"大叫或摔东西"},
+  {n:82,t:"害怕会在公共场合昏倒"},{n:83,t:"感到别人想占您的便宜"},{n:84,t:"为一些有关性的想法而很苦恼"},
+  {n:85,t:"您认为应该因为自己的过错而受到惩罚"},{n:86,t:"感到要很快把事情做完"},{n:87,t:"感到自己的身体有严重问题"},
+  {n:88,t:"从未感到和其他人很亲近"},{n:89,t:"感到自己有罪"},{n:90,t:"感到自己的脑子有毛病"}
+];
+
+const factors = [
+  {key:"somatization",name:"躯体化",en:"Somatization",items:[1,4,12,27,40,42,48,49,52,53,56,58],desc:"身体的不适信号"},
+  {key:"ocd",name:"强迫倾向",en:"Obsessive-Compulsive",items:[3,9,10,28,38,45,46,51,55,65],desc:"那些放不下的想法"},
+  {key:"interpersonal",name:"人际敏感",en:"Interpersonal Sensitivity",items:[6,21,34,36,37,41,61,69,73],desc:"与人相处的不自在"},
+  {key:"depression",name:"情绪低落",en:"Depression",items:[5,14,15,20,22,26,29,30,31,32,54,71,79],desc:"心里的那片乌云"},
+  {key:"anxiety",name:"焦虑不安",en:"Anxiety",items:[2,17,23,33,39,57,72,78,80,86],desc:"静不下来的心"},
+  {key:"hostility",name:"易怒情绪",en:"Hostility",items:[11,24,63,67,74,81],desc:"压不住的小火苗"},
+  {key:"phobia",name:"恐惧回避",en:"Phobic Anxiety",items:[13,25,47,50,70,75,82],desc:"想要躲开的场景"},
+  {key:"paranoid",name:"多疑敏感",en:"Paranoid Ideation",items:[8,18,43,68,76,83],desc:"对他人防备的心"},
+  {key:"psychoticism",name:"内心疏离",en:"Psychoticism",items:[7,16,35,62,77,84,85,87,88,90],desc:"与世界拉开距离"},
+  {key:"other",name:"睡眠饮食",en:"Other",items:[19,44,59,60,64,66,89],desc:"生活的基本节律"}
+];
+
+const optionLabels = ["没有","很轻","中度","偏重","严重"];
+
+const encouragements = [
+  "你已经走了一段路了，辛苦了 🌿",
+  "慢慢来，每一题都没有对错",
+  "深呼吸，你已经做得很好了",
+  "谢谢你愿意诚实地面对自己",
+  "再坚持一下，马上就到了",
+  "你的感受很重要，请记住它们",
+  "温柔地对待自己，就像对待好朋友",
+  "你已经完成了大半，真了不起"
+];
+
+const PAGE_SIZE = 5;
+let answers = new Array(91).fill(0);
+let currentPage = 0;
+let radarChartInstance = null;
+let breathPhase = 0;
+
+function updateBreathLabel(){
+  const label = document.getElementById("breathLabel");
+  if(!label) return;
+  breathPhase = (breathPhase + 1) % 2;
+  label.textContent = breathPhase === 0 ? "吸气..." : "呼气...";
+}
+setInterval(updateBreathLabel, 2500);
+
+function startQuiz(){
+  document.getElementById("introScreen").style.display = "none";
+  document.getElementById("quizScreen").style.display = "block";
+  currentPage = 0;
+  answers.fill(0);
+  renderPage();
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function renderPage(){
+  const group = document.getElementById("questionGroup");
+  const startIdx = currentPage * PAGE_SIZE;
+  const endIdx = Math.min(startIdx + PAGE_SIZE, 90);
+  const total = questions.length;
+
+  group.innerHTML = "";
+  for(let i = startIdx; i < endIdx; i++){
+    const q = questions[i];
+    const qNum = q.n;
+    const answered = answers[qNum] > 0;
+
+    const card = document.createElement("div");
+    card.className = "question-card" + (answered ? " answered" : "");
+    card.innerHTML = `
+      <div class="question-text">
+        <span class="q-num"><span class="question-number">${qNum}</span></span>
+        <span class="q-content">${q.t}</span>
       </div>
-      <div class="qstage">
-        <div class="qindex" id="qIndexLabel">第 1 题</div>
-        <div class="qtext" id="qText">题目加载中…</div>
-        <div class="opts" id="opts"></div>
+      <div class="options" data-qnum="${qNum}">
+        ${optionLabels.map((label,idx) => `
+          <div class="option${answers[qNum] === idx+1 ? " selected" : ""}"
+               data-value="${idx+1}"
+               tabindex="0"
+               role="button"
+               aria-label="${label}"
+               onclick="selectOption(${qNum}, ${idx+1})"
+               onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();selectOption(${qNum},${idx+1})}">
+            <span class="opt-num">${idx+1}</span>
+            ${label}
+          </div>
+        `).join("")}
       </div>
-      <div class="nav-row">
-        <button class="btn btn-ghost" id="prevBtn">上一题</button>
-        <button class="btn btn-ghost" id="nextBtn" disabled>下一题</button>
-      </div>
-    </section>
-    <section class="screen" id="screen-results">
-      <div class="res-head">
-        <span class="eyebrow">测评结果</span>
-        <h2 id="resTitle">你的心理健康画像</h2>
-        <p>以下结果基于你最近一周的作答生成，仅供参考。</p>
-      </div>
-      <div class="gauge" id="gauge">
-        <div class="lv" id="gaugeLv">总体评估</div>
-        <div class="num" id="gaugeNum">0</div>
-        <div class="desc" id="gaugeDesc"></div>
-      </div>
-      <div class="metrics">
-        <div class="metric"><b id="mTotal">0</b><span>总分</span></div>
-        <div class="metric"><b id="mMean">0.0</b><span>总均分</span></div>
-        <div class="metric"><b id="mPcount">0</b><span>阳性项目数</span></div>
-        <div class="metric"><b id="mPmean">0.0</b><span>阳性均分</span></div>
-      </div>
-      <div class="section-title"><span class="bar-l"></span>九维因子雷达图</div>
-      <div class="section-sub">各因子均分（1–5 分），分值越高表示该维度症状越突出</div>
-      <div class="radar-box">
-        <div class="radar-card">
-          <svg class="radar-svg" id="radar" viewBox="0 0 480 480" aria-label="因子雷达图"></svg>
-          <div class="legend">
-            <span><i style="background:var(--green)"></i>正常 &lt;2.0</span>
-            <span><i style="background:var(--lime)"></i>轻度 2.0–2.9</span>
-            <span><i style="background:var(--orange)"></i>中度 3.0–3.9</span>
-            <span><i style="background:var(--red)"></i>重度 ≥4.0</span>
+    `;
+    group.appendChild(card);
+  }
+
+  const answeredCount = answers.slice(1).filter(a => a > 0).length;
+  document.getElementById("progressText").textContent = `${answeredCount} / ${total}`;
+  document.getElementById("progressBar").style.width = (answeredCount / total * 100) + "%";
+
+  showEncouragement(answeredCount);
+
+  const prevBtn = document.getElementById("prevBtn");
+  const nextBtn = document.getElementById("nextBtn");
+  prevBtn.style.visibility = currentPage === 0 ? "hidden" : "visible";
+
+  const isLastPage = endIdx >= total;
+  if(isLastPage){
+    nextBtn.textContent = "看看结果 →";
+    nextBtn.className = "btn btn-primary";
+  } else {
+    nextBtn.textContent = "下一页 →";
+    nextBtn.className = "btn btn-ghost";
+  }
+}
+
+function showEncouragement(count){
+  const banner = document.getElementById("encourageBanner");
+  if(count > 0 && count % 15 === 0 && count < 90){
+    const msg = encouragements[Math.floor(count/15)-1] || encouragements[0];
+    banner.classList.remove("show");
+    setTimeout(() => {
+      banner.textContent = msg;
+      banner.classList.add("show");
+    }, 100);
+  } else {
+    banner.classList.remove("show");
+    setTimeout(() => { banner.textContent = ""; }, 600);
+  }
+}
+
+function selectOption(qNum, value){
+  answers[qNum] = value;
+  const optionContainer = document.querySelector(`.options[data-qnum="${qNum}"]`);
+  if(optionContainer){
+    optionContainer.querySelectorAll(".option").forEach((opt, idx) => {
+      opt.classList.toggle("selected", idx + 1 === value);
+    });
+    const card = optionContainer.closest(".question-card");
+    if(card) card.classList.add("answered");
+  }
+  const answeredCount = answers.slice(1).filter(a => a > 0).length;
+  document.getElementById("progressText").textContent = `${answeredCount} / 90`;
+  document.getElementById("progressBar").style.width = (answeredCount / 90 * 100) + "%";
+  showEncouragement(answeredCount);
+}
+
+function prevPage(){
+  if(currentPage > 0){
+    currentPage--;
+    renderPage();
+    window.scrollTo({top:0,behavior:"smooth"});
+  }
+}
+
+function nextPage(){
+  const totalPages = Math.ceil(90 / PAGE_SIZE);
+  if(currentPage < totalPages - 1){
+    currentPage++;
+    renderPage();
+    window.scrollTo({top:0,behavior:"smooth"});
+  } else {
+    showResults();
+  }
+}
+
+function calculateResults(){
+  let totalScore = 0;
+  let positiveItems = 0;
+  let negativeItems = 0;
+
+  for(let i = 1; i <= 90; i++){
+    totalScore += answers[i];
+    if(answers[i] >= 2) positiveItems++;
+    if(answers[i] === 1) negativeItems++;
+  }
+
+  const gsi = (totalScore / 90).toFixed(2);
+  const pst = positiveItems;
+  const psdi = positiveItems > 0 ? ((totalScore - negativeItems) / positiveItems).toFixed(2) : "0.00";
+
+  const factorResults = factors.map(f => {
+    let sum = 0;
+    f.items.forEach(itemNum => { sum += answers[itemNum]; });
+    const avg = (sum / f.items.length);
+    return { ...f, rawSum: sum, score: parseFloat(avg.toFixed(2)), elevated: avg >= 2.0 };
+  });
+
+  return { totalScore, gsi, pst, psdi, factorResults, positiveItems, negativeItems };
+}
+
+function showResults(){
+  const unanswered = [];
+  for(let i = 1; i <= 90; i++){
+    if(answers[i] === 0) unanswered.push(i);
+  }
+  if(unanswered.length > 0){
+    const firstUnanswered = unanswered[0];
+    const targetPage = Math.floor((firstUnanswered - 1) / PAGE_SIZE);
+    currentPage = targetPage;
+    renderPage();
+    setTimeout(() => {
+      const card = document.querySelector(`.options[data-qnum="${firstUnanswered}"]`)?.closest(".question-card");
+      if(card){
+        card.style.borderColor = "var(--coral)";
+        card.scrollIntoView({behavior:"smooth",block:"center"});
+      }
+    }, 100);
+    alert(`还有 ${unanswered.length} 题没有回答哦，不着急，我们回到第${firstUnanswered}题继续~`);
+    return;
+  }
+
+  const results = calculateResults();
+  document.getElementById("quizScreen").style.display = "none";
+  document.getElementById("resultScreen").style.display = "block";
+
+  renderSummary(results);
+  renderRadarChart(results);
+  renderFactorList(results);
+  renderInterpretation(results);
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function renderSummary(results){
+  const { totalScore, gsi, pst, psdi } = results;
+  document.getElementById("resultSummary").innerHTML = `
+    <div class="summary-card warm">
+      <div class="label">总分</div>
+      <div class="value">${totalScore}</div>
+      <div class="unit">满分450</div>
+    </div>
+    <div class="summary-card mint">
+      <div class="label">总均分 GSI</div>
+      <div class="value">${gsi}</div>
+      <div class="unit">1~5级</div>
+    </div>
+    <div class="summary-card lav">
+      <div class="label">阳性项目数</div>
+      <div class="value">${pst}</div>
+      <div class="unit">满分90</div>
+    </div>
+    <div class="summary-card honey">
+      <div class="label">阳性均分</div>
+      <div class="value">${psdi}</div>
+      <div class="unit">PSDI</div>
+    </div>
+  `;
+}
+
+function renderRadarChart(results){
+  const ctx = document.getElementById("radarChart").getContext("2d");
+  const chartFactors = results.factorResults.filter(f => f.key !== "other");
+  const labels = chartFactors.map(f => f.name);
+  const data = chartFactors.map(f => f.score);
+  const normData = [1.37,1.62,1.65,1.50,1.39,1.46,1.23,1.43,1.29];
+
+  if(radarChartInstance) radarChartInstance.destroy();
+
+  radarChartInstance = new Chart(ctx, {
+    type: "radar",
+    data: {
+      labels: labels,
+      datasets: [
+        {
+          label: "全国常模参考",
+          data: normData,
+          borderColor: "rgba(180,165,150,.5)",
+          backgroundColor: "rgba(180,165,150,.06)",
+          borderWidth: 1.5,
+          borderDash: [5,5],
+          pointRadius: 2,
+          pointBackgroundColor: "rgba(180,165,150,.5)"
+        },
+        {
+          label: "你的得分",
+          data: data,
+          borderColor: "rgba(244,162,97,1)",
+          backgroundColor: "rgba(244,162,97,.15)",
+          borderWidth: 2.5,
+          pointRadius: 5,
+          pointHoverRadius: 7,
+          pointBackgroundColor: function(ctx){
+            const val = ctx.raw;
+            if(val >= 3) return "rgba(233,196,106,1)";
+            if(val >= 2.5) return "rgba(244,162,97,1)";
+            if(val >= 2) return "rgba(233,196,106,.85)";
+            return "rgba(116,198,157,1)";
+          },
+          pointBorderColor: "#fff",
+          pointBorderWidth: 2
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: true,
+      scales: {
+        r: {
+          min: 0, max: 5,
+          ticks: { stepSize: 1, color: "rgba(138,126,114,.5)", font: { size: 10 }, backdropColor: "transparent" },
+          pointLabels: { color: "#4a4036", font: { size: 12, weight: "500" } },
+          grid: { color: "rgba(196,154,108,.1)" },
+          angleLines: { color: "rgba(196,154,108,.1)" }
+        }
+      },
+      plugins: {
+        legend: {
+          position: "bottom",
+          labels: { font: { size: 11 }, color: "#8a7e72", padding: 16, usePointStyle: true, pointStyle: "circle" }
+        },
+        tooltip: {
+          backgroundColor: "rgba(74,64,54,.92)",
+          padding: 12,
+          titleFont: { size: 13 },
+          bodyFont: { size: 12 },
+          cornerRadius: 8,
+          callbacks: {
+            label: function(ctx){ return ` ${ctx.dataset.label}: ${ctx.raw.toFixed(2)}`; }
+          }
+        }
+      }
+    }
+  });
+}
+
+function renderFactorList(results){
+  const container = document.getElementById("factorList");
+  container.innerHTML = results.factorResults.map(f => {
+    let levelClass = "gentle";
+    let levelText = "状态平稳";
+    let barColor = "#74c69d";
+    if(f.score >= 3){ levelClass = "care"; levelText = "需要多关爱"; barColor = "#e9c46a"; }
+    else if(f.score >= 2.5){ levelClass = "care"; levelText = "稍需留意"; barColor = "#f4a261"; }
+    else if(f.score >= 2){ levelClass = "notice"; levelText = "略有波动"; barColor = "#e9c46a"; }
+
+    const barWidth = (f.score / 5 * 100).toFixed(0);
+
+    return `
+      <div class="factor-item ${levelClass}">
+        <div class="factor-info">
+          <div class="factor-name">${f.name} <span style="font-size:.72rem;color:var(--text-light);font-weight:400">· ${f.desc}</span></div>
+          <div class="factor-bar">
+            <div class="factor-bar-fill" style="width:${barWidth}%;background:${barColor}"></div>
           </div>
         </div>
+        <div class="factor-score-box">
+          <div class="factor-score-val" style="color:${barColor}">${f.score.toFixed(2)}</div>
+          <div class="factor-score-label">${levelText}</div>
+        </div>
       </div>
-      <div class="section-title"><span class="bar-l"></span>各因子详解</div>
-      <div class="section-sub">点击因子可查看对应解释</div>
-      <div class="factor-grid" id="factorGrid"></div>
-      <div class="disclaimer">
-        <b>重要提示</b>
-        本量表为心理健康自我筛查工具，结果仅供参考，不能作为临床诊断依据。SCL-90 的常模参考值为总分 160 分、阳性项目数 43 项、各因子均分 2 分，超过即提示可能存在心理困扰。若你感到持续痛苦或有自我伤害的想法，请立即拨打全国心理援助热线 400-161-9995 或前往专业精神卫生机构就诊。
-      </div>
-      <div class="actions">
-        <button class="btn btn-ghost" id="restartBtn">重新测试</button>
-        <button class="btn btn-primary" id="saveBtn">保存结果</button>
-      </div>
-      <div class="foot">© 心理健康自测平台 · SCL-90 仅作科普用途</div>
-    </section>
-  </div>
-</div>
-<script>
-const QUESTIONS = [
-  "头痛","神经过敏，心中不踏实","头脑中有不必要的想法或字句盘旋","头昏或昏倒","对异性的兴趣减退",
-  "对旁人责备求全","感到别人能控制你的思想","责怪别人制造麻烦","忘性大","担心自己的衣饰整齐及仪态的端正",
-  "容易烦恼和激动","胸痛","害怕空旷的场所或街道","感到自己的精力下降，活动减慢","想结束自己的生命",
-  "听到旁人听不到的声音","发抖","感到大多数人都不可信任","胃口不好","容易哭泣",
-  "同异性相处时感到害羞不自在","感到受骗，中了圈套或有人想抓住你","无缘无故地突然感到害怕","自己不能控制地大发脾气","怕单独出门",
-  "经常责怪自己","腰痛","感到难以完成任务","感到孤独","感到苦闷",
-  "过分担忧","对事物不感兴趣","感到害怕","我的感情容易受到伤害","旁人能知道你的私下想法",
-  "感到别人不理解你不同情你","感到人们对你不太友好，不喜欢你","做事必须做得很慢以保证做得正确","心跳得很厉害","恶心或胃部不舒服",
-  "感到比不上他人","肌肉酸痛","感到有人在监视你谈论你","难以入睡","做事必须反复检查",
-  "难以做出决定","乘飞机、公共汽车、地铁或火车旅行时害怕","呼吸有困难","一阵阵发冷或发热","因为感到害怕而避开某些东西，场合或活动",
-  "脑子变空了","身体发麻或刺痛","喉咙有梗塞感","感到前途没有希望","不能集中注意力",
-  "感到身体的某一部分软弱无力","感到紧张或容易紧张","感到手或脚发重","想到死亡的事","吃得太多",
-  "当别人看着你或谈论你时感到不自在","有一些不属于你自己的想法","有想打人或伤害他人的冲动","醒得太早","必须反复洗手、点数目或触摸某些东西",
-  "睡得不稳不深","有想摔坏或破坏东西的冲动","有一些别人没有的想法或信念","感到与别人关系疏远","在人多的场合感到不自在",
-  "感到任何事情都很困难","一阵阵恐惧或惊恐","感到在公共场合吃东西很不舒服","经常与人争论","单独一人时神经很紧张",
-  "别人对你的成绩没有作出恰当的评价","即使和别人在一起也感到孤单","感到坐立不安心神不定","感到自己没有什么价值","感到熟悉的东西变成陌生或不象是真的",
-  "大叫或摔东西","害怕会在公共场合昏倒","感到别人想占你的便宜","为一些有关\"性\"的想法而很苦恼","你认为应该因为自己的过错而受到惩罚",
-  "感到要赶快把事情做完","感到自己的身体有严重问题","从未感到和其他人很亲近","感到自己有罪","感到自己的脑子有毛病"
-];
-const FACTORS = [
-  {key:"som", name:"躯体化", short:"躯体化", items:[1,4,12,27,40,42,48,49,52,53,56,58], desc:"身体不适感，如心血管、胃肠道、呼吸等系统的不适。"},
-  {key:"ocd",name:"强迫", short:"强迫症状", items:[3,9,10,28,38,45,46,51,55,65], desc:"无法控制的无意义思想、冲动和行为。"},
-  {key:"int",name:"人际敏感", short:"人际敏感", items:[6,21,34,36,37,41,61,69,73], desc:"与他人比较时的自卑感与不适感。"},
-  {key:"dep",name:"抑郁", short:"抑郁", items:[5,14,15,20,22,26,29,30,31,32,54,71,79], desc:"心境低落、兴趣丧失、绝望等抑郁情感。"},
-  {key:"anx",name:"焦虑", short:"焦虑", items:[2,17,23,33,39,57,72,78,80,86], desc:"紧张、担忧、惊恐等焦虑体验。"},
-  {key:"hos",name:"敌对", short:"敌对", items:[11,24,63,67,74,81], desc:"烦躁、争论、冲动攻击等敌对情绪。"},
-  {key:"pho",name:"恐怖", short:"恐怖", items:[13,25,47,50,70,75,82], desc:"对特定对象或处境的强烈恐惧。"},
-  {key:"par",name:"偏执", short:"偏执", items:[8,18,43,68,76,83], desc:"猜疑、敌意、被监视等偏执观念。"},
-  {key:"psy",name:"精神病性", short:"精神病性", items:[7,16,35,62,77,84,85,87,88,90], desc:"幻听、思维被广播等精神病性症状。"}
-];
-const OPTS = [
-  {v:1,b:"没有",s:"无该症状"},
-  {v:2,b:"很轻",s:"偶尔出现"},
-  {v:3,b:"中度",s:"时有发生"},
-  {v:4,b:"偏重",s:"经常出现"},
-  {v:5,b:"严重",s:"持续严重"}
-];
-let answers = new Array(90).fill(0);
-let idx = 0;
-const $ = s => document.querySelector(s);
-const el = (id)=>document.getElementById(id);
-const screens = {welcome:el("screen-welcome"),quiz:el("screen-quiz"),results:el("screen-results")};
-function show(name){Object.values(screens).forEach(s=>s.classList.remove("active"));screens[name].classList.add("active");window.scrollTo({top:0,behavior:"smooth"});}
-el("startBtn").onclick = ()=>{idx=0;renderQuiz();show("quiz");};
-function renderQuiz(){
-  const q = QUESTIONS[idx];
-  el("qCur").textContent = idx+1;
-  el("qIndexLabel").textContent = `第 ${idx+1} 题 / 共 90 题`;
-  el("qText").textContent = q;
-  el("barFill").style.width = ((idx)/90*100)+"%";
-  const wrap = el("opts");
-  wrap.innerHTML = "";
-  OPTS.forEach(o=>{
-    const b = document.createElement("button");
-    b.className = "opt"+(answers[idx]===o.v?" sel":"");
-    b.innerHTML = `<span class="dot">${o.v}</span><span class="lbl"><b>${o.b}</b><span>${o.s}</span></span>`;
-    b.onclick = ()=>{
-      answers[idx]=o.v;
-      [...wrap.children].forEach(c=>c.classList.remove("sel"));
-      b.classList.add("sel");
-      el("nextBtn").disabled=false;
-      setTimeout(()=>{ if(idx<89){ idx++; renderQuiz(); el("nextBtn").disabled = answers[idx]!==0; } else { finish(); } }, 280);
-    };
-    wrap.appendChild(b);
-  });
-  el("prevBtn").disabled = idx===0;
-  el("nextBtn").disabled = answers[idx]===0;
+    `;
+  }).join("");
 }
-el("prevBtn").onclick = ()=>{ if(idx>0){ idx--; renderQuiz(); } };
-el("nextBtn").onclick = ()=>{ if(idx<89){ idx++; renderQuiz(); } else { finish(); } };
-function levelOf(score){
-  if(score>=4) return {key:"red",label:"重度"};
-  if(score>=3) return {key:"orange",label:"中度"};
-  if(score>=2) return {key:"lime",label:"轻度"};
-  return {key:"green",label:"正常"};
-}
-function finish(){
-  const total = answers.reduce((a,b)=>a+b,0);
-  const mean = total/90;
-  const pcount = answers.filter(v=>v>=2).length;
-  const psum = answers.filter(v=>v>=2).reduce((a,b)=>a+b,0);
-  const pmean = pcount? (psum/pcount):0;
-  const factorScores = FACTORS.map(f=>{
-    const vals = f.items.map(i=>answers[i-1]);
-    const s = vals.reduce((a,b)=>a+b,0)/vals.length;
-    return {...f, score:s};
-  });
-  renderResults({total,mean,pcount,pmean,factorScores});
-  show("results");
-}
-function renderResults(r){
-  let lv,desc;
-  if(r.total>=250){lv="重度心理困扰";desc="多个维度症状明显，建议尽快寻求专业心理或精神科评估。";}
-  else if(r.total>=200){lv="中度心理困扰";desc="存在较明显的心理困扰，建议主动调适并考虑专业咨询。";}
-  else if(r.total>=160){lv="轻度心理困扰";desc="存在一定心理压力，建议关注自我状态，必要时寻求支持。";}
-  else {lv="心理状态良好";desc="整体心理状态较为平稳，请继续保持良好的心理卫生习惯。";}
-  el("gaugeLv").textContent = lv;
-  el("gaugeNum").textContent = r.total;
-  el("gaugeDesc").textContent = desc;
-  animateNum(el("mTotal"),0,r.total,800,0);
-  animateNum(el("mMean"),0,r.mean,900,1);
-  animateNum(el("mPcount"),0,r.pcount,800,0);
-  animateNum(el("mPmean"),0,r.pmean,900,1);
-  drawRadar(r.factorScores);
-  const grid = el("factorGrid"); grid.innerHTML="";
-  r.factorScores.forEach((f,i)=>{
-    const lv = levelOf(f.score);
-    const card = document.createElement("div");
-    card.className = "fcard l-"+lv.key;
-    const pct = ((f.score-1)/4)*100;
-    card.innerHTML = `
-      <div class="ft"><span class="fn">${f.short}</span><span class="fs">${f.score.toFixed(2)}</span></div>
-      <div class="fbar"><i style="width:0"></i></div>
-      <span class="fl">${lv.label}</span>
-      <div class="fd">${f.desc}</div>`;
-    grid.appendChild(card);
-    setTimeout(()=>{ card.querySelector(".fbar > i").style.width = pct+"%"; }, 150+i*70);
-  });
-  el("resTitle").textContent = r.total>=160 ? "建议进一步关注你的心理状态" : "你的心理健康画像已生成";
-}
-function animateNum(node,from,to,dur,dec){
-  const t0=performance.now();
-  function step(t){
-    const p=Math.min(1,(t-t0)/dur);
-    const e=1-Math.pow(1-p,3);
-    const val=from+(to-from)*e;
-    node.textContent = dec? val.toFixed(1): Math.round(val);
-    if(p<1) requestAnimationFrame(step);
-  }
-  requestAnimationFrame(step);
-}
-function drawRadar(scores){
-  const svg = el("radar");
-  const cx=240, cy=240, R=150, n=scores.length;
-  const max=5;
-  let html="";
-  for(let r=1;r<=5;r++){
-    const rad = (r/5)*R;
-    const pts=[];
-    for(let i=0;i<n;i++){
-      const ang = -Math.PI/2 + i*2*Math.PI/n;
-      pts.push((cx+rad*Math.cos(ang)).toFixed(1)+","+(cy+rad*Math.sin(ang)).toFixed(1));
+
+function renderInterpretation(results){
+  const { totalScore, gsi, pst, factorResults } = results;
+  const elevatedFactors = factorResults.filter(f => f.score >= 2 && f.key !== "other");
+  const isPositive = totalScore > 160 || pst > 43 || elevatedFactors.length > 0;
+
+  let emoji, title, levelClass, levelText, interpHtml;
+
+  if(!isPositive){
+    emoji = "🌿";
+    title = "整体状态不错呢";
+    levelClass = "good";
+    levelText = "💚 状态良好";
+    interpHtml = `
+      <div class="interp-level good">${levelText}</div>
+      <p class="interp-text">
+        你的总分是 <strong>${totalScore}分</strong>，各维度的得分都在比较舒适的范围内。
+        看起来这一周，你把自己照顾得还不错。<br><br>
+        这份平稳来之不易，继续保持那些让你舒服的小习惯吧——
+        也许是一杯热茶、一段散步、或者和信任的人聊聊天。
+        记住，照顾好自己，本身就是一种了不起的能力。
+      </p>
+    `;
+  } else {
+    const isSevere = totalScore > 250 || elevatedFactors.some(f => f.score >= 3);
+    const isModerate = totalScore > 200 || elevatedFactors.some(f => f.score >= 2.5);
+
+    if(isSevere){
+      emoji = "🌷";
+      title = "辛苦了，你承受了不少";
+      levelClass = "care";
+      levelText = "💛 想给自己一些关注";
+    } else if(isModerate){
+      emoji = "🌸";
+      title = "这一周，你好像有些不容易";
+      levelClass = "care";
+      levelText = "🧡 给自己一点温柔";
+    } else {
+      emoji = "🌱";
+      title = "有一些小情绪在冒泡";
+      levelClass = "gentle";
+      levelText = "💫 值得留意的小信号";
     }
-    html += `<polygon points="${pts.join(" ")}" fill="none" stroke="${r===5?'#c4d6d9':'#e6efef'}" stroke-width="${r===5?1.4:1}"/>`;
+
+    let factorDetailHtml = "";
+    if(elevatedFactors.length > 0){
+      factorDetailHtml = `
+        <p class="interp-text" style="margin-top:14px"><strong>可能需要多关照的方面：</strong></p>
+        <ul style="margin-top:8px;padding-left:0;list-style:none">
+      `;
+      elevatedFactors.forEach(f => {
+        let level = "略有波动";
+        if(f.score >= 3) level = "比较明显";
+        else if(f.score >= 2.5) level = "稍需留意";
+        factorDetailHtml += `
+          <li style="padding:5px 0;font-size:.87rem;color:var(--text-soft)">
+            <strong style="color:var(--text)">${f.name}</strong>（${f.score.toFixed(2)}分）— ${level}：${f.desc}
+          </li>
+        `;
+      });
+      factorDetailHtml += "</ul>";
+    }
+
+    interpHtml = `
+      <div class="interp-level ${levelClass}">${levelText}</div>
+      <p class="interp-text">
+        你的总分是 <strong>${totalScore}分</strong>，总均分 <strong>${gsi}</strong>。
+        ${totalScore > 160 ? "这个分数提示，这一周你可能在承受着一些心理上的压力。" : ""}
+        ${pst > 43 ? `有 <strong>${pst}</strong> 个方面你感受到了不同程度的不适。` : ""}
+        ${elevatedFactors.length > 0 ? `其中 <strong>${elevatedFactors.length}</strong> 个维度得分超过了2.0。` : ""}
+        <br><br>
+        ${isSevere
+          ? "看到这些数字，你可能会有些担心。但请先深呼吸——<strong>愿意面对就是改变的开始</strong>。这些信号在提醒你：是时候好好照顾自己了。如果你愿意，和专业的人聊聊会是很有力量的一步。"
+          : isModerate
+            ? "这些不适是身体和情绪在轻轻提醒你：该慢下来，给自己一些关怀了。试着做一些让你放松的事，如果持续不舒服，找人聊聊也很有帮助。"
+            : "每个人偶尔都会有些小情绪，这很正常。留意一下这些信号，给自己多一点休息和温柔，它们往往会慢慢淡去。"
+        }
+      </p>
+      ${factorDetailHtml}
+    `;
   }
-  for(let i=0;i<n;i++){
-    const ang = -Math.PI/2 + i*2*Math.PI/n;
-    html += `<line x1="${cx}" y1="${cy}" x2="${(cx+R*Math.cos(ang)).toFixed(1)}" y2="${(cy+R*Math.sin(ang)).toFixed(1)}" stroke="#e6efef" stroke-width="1"/>`;
-  }
-  for(let r=1;r<=5;r++){
-    const rad=(r/5)*R;
-    html += `<text x="${cx+3}" y="${(cy-rad+4).toFixed(1)}" font-size="9" fill="#aebfc5">${r}</text>`;
-  }
-  const dpts=[];
-  for(let i=0;i<n;i++){
-    const ang = -Math.PI/2 + i*2*Math.PI/n;
-    const rad = (scores[i].score/max)*R;
-    dpts.push([cx+rad*Math.cos(ang), cy+rad*Math.sin(ang)]);
-  }
-  const polyPts = dpts.map(p=>p[0].toFixed(1)+","+p[1].toFixed(1)).join(" ");
-  html += `<defs><linearGradient id="rfill" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#0d7d8a" stop-opacity="0.45"/><stop offset="100%" stop-color="#1aa6b4" stop-opacity="0.22"/></linearGradient><filter id="rshadow" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="3" stdDeviation="5" flood-color="#0d7d8a" flood-opacity="0.35"/></filter></defs>`;
-  html += `<polygon id="rpoly" points="${polyPts}" fill="url(#rfill)" stroke="#0d7d8a" stroke-width="2" stroke-linejoin="round" filter="url(#rshadow)" style="opacity:0;transition:opacity .6s ease"/>`;
-  for(let i=0;i<n;i++){
-    html += `<circle cx="${dpts[i][0].toFixed(1)}" cy="${dpts[i][1].toFixed(1)}" r="4" fill="#fff" stroke="#0d7d8a" stroke-width="2" style="opacity:0;transition:opacity .4s ease .4s"/>`;
-  }
-  for(let i=0;i<n;i++){
-    const ang = -Math.PI/2 + i*2*Math.PI/n;
-    const lr = R+26;
-    const lx = cx+lr*Math.cos(ang), ly = cy+lr*Math.sin(ang);
-    let anchor = "middle";
-    if(Math.cos(ang)>0.3) anchor="start"; else if(Math.cos(ang)<-0.3) anchor="end";
-    const lv = levelOf(scores[i].score);
-    html += `<text x="${lx.toFixed(1)}" y="${ly.toFixed(1)}" text-anchor="${anchor}" font-size="12.5" font-weight="600" fill="#16292e" dominant-baseline="middle">${scores[i].short}</text>`;
-    html += `<text x="${lx.toFixed(1)}" y="${(ly+14).toFixed(1)}" text-anchor="${anchor}" font-size="11" fill="${{'green':'#1f7a55','lime':'#9a7a12','orange':'#a85b1d','red':'#a8302c'}[lv.key]}" dominant-baseline="middle">${scores[i].score.toFixed(2)}</text>`;
-  }
-  svg.innerHTML = html;
-  requestAnimationFrame(()=>{
-    const poly = svg.querySelector("#rpoly");
-    if(poly) poly.style.opacity=1;
-    svg.querySelectorAll("circle").forEach(c=>c.style.opacity=1);
-  });
+
+  document.getElementById("resultEmoji").textContent = emoji;
+  document.getElementById("resultTitle").textContent = title;
+  document.getElementById("interpretationContent").innerHTML = interpHtml;
 }
-el("restartBtn").onclick = ()=>{
-  answers = new Array(90).fill(0); idx=0; show("welcome");
-};
-el("saveBtn").onclick = ()=>{
-  const data = {date:new Date().toLocaleString("zh-CN"),
-    total:el("mTotal").textContent, mean:el("mMean").textContent,
-    pcount:el("mPcount").textContent, pmean:el("mPmean").textContent};
-  const text = `SCL-90 心理健康自测结果\n生成时间：${data.date}\n\n总分：${data.total}\n总均分：${data.mean}\n阳性项目数：${data.pcount}\n阳性症状均分：${data.pmean}\n\n注：本结果仅供参考，不作为临床诊断依据。`;
-  const blob = new Blob([text],{type:"text/plain;charset=utf-8"});
-  const a = document.createElement("a");
-  a.href = URL.createObjectURL(blob);
-  a.download = "SCL-90测评结果.txt";
-  a.click();
-  URL.revokeObjectURL(a.href);
-};
+
+function restartQuiz(){
+  document.getElementById("resultScreen").style.display = "none";
+  document.getElementById("introScreen").style.display = "block";
+  answers.fill(0);
+  currentPage = 0;
+  if(radarChartInstance){ radarChartInstance.destroy(); radarChartInstance = null; }
+  window.scrollTo({top:0,behavior:"smooth"});
+}
 </script>
 </body>
 </html>
