@@ -86,22 +86,25 @@
   .float-deco.d4{width:180px;height:180px;background:var(--honey);opacity:.15;top:20%;right:30%;animation-delay:-7s;filter:blur(50px)}
   @keyframes floatY{0%,100%{transform:translateY(0) translateX(0)}50%{transform:translateY(-30px) translateX(15px)}}
 
-  /* 顶部工具栏 */
-  .top-bar{
-    position:fixed;top:12px;right:12px;z-index:100;
-    display:flex;gap:8px;
-  }
-  .icon-btn{
-    width:42px;height:42px;border-radius:50%;
-    background:rgba(255,255,255,.7);backdrop-filter:blur(10px);
+  /* 浮动工具按钮（可拖动） */
+  .float-tool-btn{
+    position:fixed;z-index:100;
+    width:46px;height:46px;border-radius:50%;
+    background:rgba(255,255,255,.75);backdrop-filter:blur(12px);
     border:1px solid var(--border);
     display:flex;align-items:center;justify-content:center;
-    cursor:pointer;font-size:1.1rem;
-    transition:var(--transition);
+    cursor:grab;font-size:1.15rem;
+    transition:box-shadow .3s ease, background .3s ease, color .3s ease;
     color:var(--text-soft);
+    box-shadow:0 4px 16px rgba(196,154,108,.15);
+    user-select:none;
+    touch-action:none;
   }
-  .icon-btn:hover{background:var(--coral-soft);color:var(--coral);transform:scale(1.08)}
-  [data-theme="dark"] .icon-btn{background:rgba(45,38,56,.8);border-color:var(--border)}
+  .float-tool-btn:hover{background:var(--coral-soft);color:var(--coral);box-shadow:0 6px 20px rgba(244,162,97,.25)}
+  .float-tool-btn:active{cursor:grabbing}
+  .float-tool-btn.dragging{transition:none;cursor:grabbing;box-shadow:0 8px 28px rgba(196,154,108,.3)}
+  [data-theme="dark"] .float-tool-btn{background:rgba(45,38,56,.85);border-color:var(--border)}
+  #themeBtn{top:16px;right:16px}
 
   .app{max-width:780px;margin:0 auto;padding:20px 16px 60px;position:relative;z-index:1}
   @media(min-width:640px){.app{padding:40px 24px 60px}}
@@ -296,8 +299,11 @@
     box-shadow:var(--shadow-lg);
     padding:48px 36px 40px;
     border:1px solid rgba(255,255,255,.6);
-    animation:cardIn .6s cubic-bezier(.4,0,.2,1);
     position:relative;overflow:hidden;
+    transform:translateX(0);
+    opacity:1;
+    transition:transform .35s cubic-bezier(.4,0,.2,1), opacity .25s ease;
+    will-change:transform, opacity;
   }
   [data-theme="dark"] .question-card-single{background:rgba(45,38,56,.9);border-color:rgba(255,255,255,.08)}
   .question-card-single::before{
@@ -305,10 +311,11 @@
     background:linear-gradient(90deg,var(--coral),var(--honey),var(--mint-deep));
     opacity:.6;
   }
-  @keyframes cardIn{
-    from{opacity:0;transform:translateY(20px) scale(.98)}
-    to{opacity:1;transform:translateY(0) scale(1)}
-  }
+  /* 切题动画状态 */
+  .question-card-single.slide-out-left{transform:translateX(-30px);opacity:0}
+  .question-card-single.slide-out-right{transform:translateX(30px);opacity:0}
+  .question-card-single.slide-in-left{transform:translateX(-30px);opacity:0}
+  .question-card-single.slide-in-right{transform:translateX(30px);opacity:0}
   .q-number-big{
     display:inline-flex;align-items:center;justify-content:center;
     width:48px;height:48px;border-radius:50%;
@@ -770,7 +777,7 @@
   .btn:focus-visible{outline:3px solid var(--mint-deep);outline-offset:2px}
 
   @media print{
-    .float-deco,.quiz-nav,.result-actions,.top-bar,.nav-toggle,.nav-panel{display:none}
+    .float-deco,.quiz-nav,.result-actions,.float-tool-btn,.nav-toggle,.nav-panel{display:none}
     .intro-screen,.quiz-screen{display:none}
     body{background:#fff}
   }
@@ -794,9 +801,7 @@
 <div class="float-deco d3"></div>
 <div class="float-deco d4"></div>
 
-<div class="top-bar">
-  <button class="icon-btn" onclick="toggleTheme()" title="切换主题" id="themeBtn">🌙</button>
-</div>
+<button class="float-tool-btn" id="themeBtn" onclick="toggleTheme()" title="切换主题（可拖动）">🌙</button>
 
 <div class="app">
 
@@ -1193,6 +1198,120 @@ function toggleTheme(){
   }
 })();
 
+// ============ 可拖动浮动按钮 ============
+(function(){
+  const btn = document.getElementById("themeBtn");
+  if(!btn) return;
+
+  let isDragging = false;
+  let hasMoved = false;
+  let startX = 0, startY = 0;
+  let startLeft = 0, startTop = 0;
+
+  // 恢复保存的位置
+  const savedPos = localStorage.getItem("scl90_themeBtnPos");
+  if(savedPos){
+    try{
+      const pos = JSON.parse(savedPos);
+      btn.style.left = "auto";
+      btn.style.right = "auto";
+      btn.style.left = pos.left + "px";
+      btn.style.top = pos.top + "px";
+    }catch(e){}
+  }
+
+  function getEventPoint(e){
+    if(e.touches && e.touches[0]) return { x: e.touches[0].clientX, y: e.touches[0].clientY };
+    return { x: e.clientX, y: e.clientY };
+  }
+
+  function onStart(e){
+    // 只响应左键或触摸
+    if(e.type === "mousedown" && e.button !== 0) return;
+    isDragging = true;
+    hasMoved = false;
+    const point = getEventPoint(e);
+    startX = point.x;
+    startY = point.y;
+    const rect = btn.getBoundingClientRect();
+    startLeft = rect.left;
+    startTop = rect.top;
+    btn.classList.add("dragging");
+    btn.style.right = "auto";
+    e.preventDefault();
+  }
+
+  function onMove(e){
+    if(!isDragging) return;
+    const point = getEventPoint(e);
+    const dx = point.x - startX;
+    const dy = point.y - startY;
+    if(Math.abs(dx) > 3 || Math.abs(dy) > 3) hasMoved = true;
+
+    let newLeft = startLeft + dx;
+    let newTop = startTop + dy;
+
+    // 边界限制
+    const btnW = btn.offsetWidth;
+    const btnH = btn.offsetHeight;
+    newLeft = Math.max(8, Math.min(window.innerWidth - btnW - 8, newLeft));
+    newTop = Math.max(8, Math.min(window.innerHeight - btnH - 8, newTop));
+
+    btn.style.left = newLeft + "px";
+    btn.style.top = newTop + "px";
+    e.preventDefault();
+  }
+
+  function onEnd(e){
+    if(!isDragging) return;
+    isDragging = false;
+    btn.classList.remove("dragging");
+
+    if(hasMoved){
+      // 拖动过，保存位置，不触发点击
+      const rect = btn.getBoundingClientRect();
+      localStorage.setItem("scl90_themeBtnPos", JSON.stringify({
+        left: rect.left,
+        top: rect.top
+      }));
+      // 阻止后续的 click 事件
+      e.stopPropagation && e.stopPropagation();
+      e.preventDefault && e.preventDefault();
+    }
+    // 没拖动就是正常点击，交给 onclick 处理
+  }
+
+  btn.addEventListener("mousedown", onStart);
+  document.addEventListener("mousemove", onMove);
+  document.addEventListener("mouseup", onEnd, true); // 捕获阶段，优先于 click
+
+  btn.addEventListener("touchstart", onStart, { passive: false });
+  document.addEventListener("touchmove", onMove, { passive: false });
+  document.addEventListener("touchend", onEnd, { passive: false });
+
+  // 窗口缩放时修正位置
+  window.addEventListener("resize", () => {
+    const rect = btn.getBoundingClientRect();
+    const btnW = btn.offsetWidth;
+    const btnH = btn.offsetHeight;
+    let newLeft = rect.left;
+    let newTop = rect.top;
+    newLeft = Math.max(8, Math.min(window.innerWidth - btnW - 8, newLeft));
+    newTop = Math.max(8, Math.min(window.innerHeight - btnH - 8, newTop));
+    btn.style.left = newLeft + "px";
+    btn.style.top = newTop + "px";
+  });
+
+  // 拦截点击（如果刚拖动过）
+  btn.addEventListener("click", (e) => {
+    if(hasMoved){
+      e.stopImmediatePropagation();
+      e.preventDefault();
+      hasMoved = false;
+    }
+  }, true);
+})();
+
 // ============ 呼吸动画 ============
 function updateBreathLabel(){
   const label = document.getElementById("breathLabel");
@@ -1296,17 +1415,24 @@ function showQuiz(){
   document.getElementById("historyScreen").style.display = "none";
   document.getElementById("resultScreen").style.display = "none";
   document.getElementById("quizScreen").style.display = "block";
-  renderQuestion();
+  renderQuestion(false); // 首次进入不播切题动画
   renderNavGrid();
   window.scrollTo({top:0,behavior:"smooth"});
 }
 
-function renderQuestion(){
+// 直接更新题目内容（无动画）
+function renderQuestion(animate){
   const q = questions[currentQ - 1];
   document.getElementById("qNumber").textContent = currentQ;
   document.getElementById("qText").textContent = q.t;
   document.getElementById("qCategory").textContent = q.cat;
+  buildOptions();
+  updateProgressAndNav();
+  updatePrevNextBtn();
+  saveProgress();
+}
 
+function buildOptions(){
   const optsDiv = document.getElementById("optionsBig");
   optsDiv.innerHTML = optionLabels.map((label,idx) => `
     <div class="option-big${answers[currentQ] === idx+1 ? " selected" : ""}"
@@ -1319,13 +1445,17 @@ function renderQuestion(){
       ${label}
     </div>
   `).join("");
+}
 
-  // 进度
+function updateProgressAndNav(){
   const answeredCount = answers.slice(1).filter(a => a > 0).length;
   document.getElementById("progressText").textContent = `${currentQ} / 90`;
   document.getElementById("progressBar").style.width = (answeredCount / 90 * 100) + "%";
+  updateNavGrid();
+  showEncouragement(answeredCount);
+}
 
-  // 按钮
+function updatePrevNextBtn(){
   document.getElementById("prevBtn").style.visibility = currentQ === 1 ? "hidden" : "visible";
   const nextBtn = document.getElementById("nextBtn");
   if(currentQ === 90){
@@ -1333,31 +1463,86 @@ function renderQuestion(){
   } else {
     nextBtn.textContent = "下一题 →";
   }
-
-  // 鼓励语
-  showEncouragement(answeredCount);
-
-  // 更新导航
-  updateNavGrid();
-  saveProgress();
-
-  // 卡片动画
-  const card = document.getElementById("questionCard");
-  card.style.animation = "none";
-  card.offsetHeight; // trigger reflow
-  card.style.animation = "cardIn .5s cubic-bezier(.4,0,.2,1)";
 }
 
+// 只更新选中状态，不重建 DOM
+function updateOptionSelection(value){
+  const opts = document.querySelectorAll("#optionsBig .option-big");
+  opts.forEach((opt, idx) => {
+    if(idx + 1 === value){
+      opt.classList.add("selected");
+    } else {
+      opt.classList.remove("selected");
+    }
+  });
+}
+
+// 选择答案（即时反馈 + 平滑切题）
 function selectOption(value){
   answers[currentQ] = value;
-  renderQuestion();
-  // 自动下一题（稍微延迟一点，让用户看到选中效果）
+  updateOptionSelection(value);
+  updateProgressAndNav();
+  saveProgress();
+
+  // 短延迟后切下一题，让用户看到选中效果
   setTimeout(() => {
     if(currentQ < 90){
-      currentQ++;
-      renderQuestion();
+      slideToQuestion(currentQ + 1, "right");
     }
-  }, 250);
+  }, 180);
+}
+
+// 带滑动动画切换题目
+// direction: "right" = 新题从右滑入（下一题），"left" = 新题从左滑入（上一题）
+let isSliding = false;
+function slideToQuestion(qNum, direction){
+  if(qNum < 1 || qNum > 90) return;
+  if(isSliding) return; // 防止动画叠加
+  isSliding = true;
+
+  const card = document.getElementById("questionCard");
+  const outClass = direction === "right" ? "slide-out-left" : "slide-out-right";
+  const inClass = direction === "right" ? "slide-in-right" : "slide-in-left";
+
+  // 第一步：旧题滑出
+  card.classList.add(outClass);
+
+  setTimeout(() => {
+    // 第二步：更新内容（滑出后更新，不会闪烁）
+    currentQ = qNum;
+    const q = questions[currentQ - 1];
+    document.getElementById("qNumber").textContent = currentQ;
+    document.getElementById("qText").textContent = q.t;
+    document.getElementById("qCategory").textContent = q.cat;
+    buildOptions();
+    updateProgressAndNav();
+    updatePrevNextBtn();
+    saveProgress();
+
+    // 第三步：把卡片放到入场位置
+    card.classList.remove(outClass);
+    card.classList.add(inClass);
+
+    // 强制 reflow，确保 inClass 生效后再移除
+    void card.offsetWidth;
+
+    // 第四步：滑入到正常位置
+    requestAnimationFrame(() => {
+      card.classList.remove(inClass);
+    });
+
+    // 动画结束后解锁
+    setTimeout(() => {
+      isSliding = false;
+    }, 350);
+  }, 220); // 等待滑出动画完成
+}
+
+// 保留 goToQuestion 供其他地方调用（导航、回顾等）
+function goToQuestion(qNum){
+  if(qNum === currentQ) return;
+  const direction = qNum > currentQ ? "right" : "left";
+  slideToQuestion(qNum, direction);
 }
 
 function handleOptionKey(e, value){
@@ -1385,15 +1570,13 @@ document.addEventListener("keydown", (e) => {
 
 function prevQuestion(){
   if(currentQ > 1){
-    currentQ--;
-    renderQuestion();
+    goToQuestion(currentQ - 1);
   }
 }
 
 function nextQuestion(){
   if(currentQ < 90){
-    currentQ++;
-    renderQuestion();
+    goToQuestion(currentQ + 1);
   } else {
     trySubmit();
   }
@@ -1431,9 +1614,8 @@ function renderNavGrid(){
     if(answers[i] > 0) dot.classList.add("answered");
     dot.textContent = i;
     dot.onclick = () => {
-      currentQ = i;
       toggleNavPanel();
-      renderQuestion();
+      goToQuestion(i);
     };
     grid.appendChild(dot);
   }
@@ -1464,9 +1646,8 @@ function showReview(){
       <div class="review-a">${answered ? optionLabels[answers[i]-1] : "未回答"}</div>
     `;
     item.onclick = () => {
-      currentQ = i;
       hideReview();
-      renderQuestion();
+      goToQuestion(i);
     };
     list.appendChild(item);
   }
