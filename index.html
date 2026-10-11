@@ -297,7 +297,7 @@
     backdrop-filter:blur(14px);
     border-radius:var(--radius);
     box-shadow:var(--shadow-lg);
-    padding:48px 36px 40px;
+    padding:48px 40px 42px;
     border:1px solid rgba(255,255,255,.6);
     position:relative;overflow:hidden;
     transform:translateX(0);
@@ -309,43 +309,59 @@
   .question-card-single::before{
     content:"";position:absolute;top:0;left:0;right:0;height:4px;
     background:linear-gradient(90deg,var(--coral),var(--honey),var(--mint-deep));
-    opacity:.6;
+    opacity:.5;
   }
   /* 切题动画状态 */
   .question-card-single.slide-out-left{transform:translateX(-30px);opacity:0}
   .question-card-single.slide-out-right{transform:translateX(30px);opacity:0}
   .question-card-single.slide-in-left{transform:translateX(-30px);opacity:0}
   .question-card-single.slide-in-right{transform:translateX(30px);opacity:0}
+
+  .q-header{
+    display:flex;align-items:center;gap:16px;
+    margin-bottom:28px;
+    padding-bottom:20px;
+    border-bottom:1px solid var(--border);
+  }
   .q-number-big{
     display:inline-flex;align-items:center;justify-content:center;
-    width:48px;height:48px;border-radius:50%;
+    width:44px;height:44px;border-radius:12px;
     background:linear-gradient(135deg,var(--coral),var(--honey));
     color:#fff;font-size:1.1rem;font-weight:700;
-    margin-bottom:20px;
-    box-shadow:0 4px 16px rgba(244,162,97,.3);
+    box-shadow:0 4px 14px rgba(244,162,97,.28);
+    flex-shrink:0;
   }
-  .q-category{
-    font-size:.78rem;color:var(--text-light);
-    margin-bottom:8px;letter-spacing:.05em;
-    text-transform:uppercase;font-weight:500;
+  .q-meta{flex:1;min-width:0}
+  .q-progress-text{
+    font-size:.8rem;color:var(--text-light);
+    font-weight:500;letter-spacing:.02em;
+  }
+  .q-progress-text strong{
+    color:var(--coral);font-size:.9rem;
+    font-weight:700;margin-right:2px;
+  }
+  .q-total-hint{
+    font-size:.75rem;color:var(--text-light);
+    white-space:nowrap;
   }
   .question-text-big{
-    font-size:1.35rem;font-weight:600;color:var(--text);
-    line-height:1.6;margin-bottom:32px;
+    font-size:1.45rem;font-weight:600;color:var(--text);
+    line-height:1.7;margin-bottom:32px;
     letter-spacing:.01em;
   }
   @media(max-width:640px){
-    .question-text-big{font-size:1.15rem}
-    .question-card-single{padding:36px 24px 30px}
+    .question-text-big{font-size:1.2rem;line-height:1.65}
+    .question-card-single{padding:36px 26px 32px}
+    .q-header{margin-bottom:22px;padding-bottom:16px}
   }
 
   .options-big{display:flex;flex-direction:column;gap:10px}
   .option-big{
-    display:flex;align-items:center;gap:14px;
-    padding:16px 20px;border:2px solid var(--border);
-    border-radius:14px;background:var(--warm-bg);
+    display:flex;align-items:center;gap:16px;
+    padding:18px 22px;border:2px solid var(--border);
+    border-radius:16px;background:var(--warm-bg);
     cursor:pointer;transition:var(--transition);
-    font-size:.95rem;font-weight:500;color:var(--text-soft);
+    font-size:1rem;font-weight:500;color:var(--text-soft);
     user-select:none;
   }
   [data-theme="dark"] .option-big{background:var(--warm-bg)}
@@ -356,10 +372,10 @@
     box-shadow:0 6px 20px rgba(244,162,97,.35);
   }
   .option-num{
-    width:32px;height:32px;border-radius:50%;
-    background:rgba(255,255,255,.5);
+    width:34px;height:34px;border-radius:10px;
+    background:rgba(255,255,255,.55);
     display:flex;align-items:center;justify-content:center;
-    font-weight:700;font-size:.9rem;flex-shrink:0;
+    font-weight:700;font-size:.95rem;flex-shrink:0;
     color:var(--text-soft);
     transition:var(--transition);
   }
@@ -891,8 +907,13 @@
 
     <div class="single-question-wrap">
       <div class="question-card-single" id="questionCard">
-        <div class="q-category" id="qCategory">躯体化</div>
-        <div class="q-number-big" id="qNumber">1</div>
+        <div class="q-header">
+          <div class="q-number-big" id="qNumber">1</div>
+          <div class="q-meta">
+            <div class="q-progress-text"><strong id="qProgressNum">第 1 题</strong>· 共 90 题</div>
+          </div>
+          <div class="q-total-hint" id="qAnsweredHint">已答 0 题</div>
+        </div>
         <div class="question-text-big" id="qText">头痛</div>
         <div class="options-big" id="optionsBig"></div>
       </div>
@@ -1425,7 +1446,7 @@ function renderQuestion(animate){
   const q = questions[currentQ - 1];
   document.getElementById("qNumber").textContent = currentQ;
   document.getElementById("qText").textContent = q.t;
-  document.getElementById("qCategory").textContent = q.cat;
+  document.getElementById("qProgressNum").textContent = `第 ${currentQ} 题`;
   buildOptions();
   updateProgressAndNav();
   updatePrevNextBtn();
@@ -1451,6 +1472,8 @@ function updateProgressAndNav(){
   const answeredCount = answers.slice(1).filter(a => a > 0).length;
   document.getElementById("progressText").textContent = `${currentQ} / 90`;
   document.getElementById("progressBar").style.width = (answeredCount / 90 * 100) + "%";
+  const hint = document.getElementById("qAnsweredHint");
+  if(hint) hint.textContent = `已答 ${answeredCount} 题`;
   updateNavGrid();
   showEncouragement(answeredCount);
 }
@@ -1513,7 +1536,7 @@ function slideToQuestion(qNum, direction){
     const q = questions[currentQ - 1];
     document.getElementById("qNumber").textContent = currentQ;
     document.getElementById("qText").textContent = q.t;
-    document.getElementById("qCategory").textContent = q.cat;
+    document.getElementById("qProgressNum").textContent = `第 ${currentQ} 题`;
     buildOptions();
     updateProgressAndNav();
     updatePrevNextBtn();
