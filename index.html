@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>SCL-90 心理健康自测 · 好好照顾自己</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23fdf6f0'/%3E%3Cpath d='M32 11c1.7 10.3 10.7 19.3 21 21-10.3 1.7-19.3 10.7-21 21-1.7-10.3-10.7-19.3-21-21 10.3-1.7 19.3-10.7 21-21z' fill='%23f4a261'/%3E%3C/svg%3E">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 <style>
@@ -187,7 +188,6 @@
     display:grid;grid-template-columns:repeat(3,1fr);
     gap:12px;margin:32px 0;
   }
-  @media(max-width:560px){.intro-features{grid-template-columns:1fr}}
   .feature-item{
     background:var(--warm-bg);
     border-radius:var(--radius-sm);padding:24px 14px;
@@ -199,6 +199,26 @@
   .feature-item .icon{font-size:1.8rem;margin-bottom:10px;line-height:1}
   .feature-item .label{font-size:.82rem;color:var(--text-soft);font-weight:500}
   .feature-item .value{font-size:1.5rem;font-weight:700;color:var(--coral);margin-bottom:2px}
+
+  /* 页脚品牌标识（低调小号） */
+  .site-footer-brand{
+    display:flex;align-items:center;justify-content:center;
+    gap:6px;margin-top:34px;
+    font-size:.72rem;font-weight:500;
+    color:var(--text-light);
+    letter-spacing:.06em;
+    user-select:none;
+  }
+  .site-footer-brand svg{width:12px;height:12px;flex:none;display:block;opacity:.75}
+
+  @media(max-width:560px){
+    .intro-features{grid-template-columns:repeat(3,1fr);gap:8px;margin:24px 0 20px}
+    .feature-item{padding:16px 5px 14px;border-radius:13px}
+    .feature-item .icon{font-size:1.3rem;margin-bottom:6px}
+    .feature-item .value{font-size:1.15rem}
+    .feature-item .label{font-size:.66rem;line-height:1.4}
+    .site-footer-brand{margin-top:26px;font-size:.68rem}
+  }
 
   .intro-note{
     background:linear-gradient(135deg,var(--mint-soft),var(--lavender-soft));
@@ -1024,6 +1044,13 @@
       <p style="font-size:.85rem;margin-top:6px">完成一次测试后，结果会自动保存在这里</p>
     </div>
   </section>
+
+  <div class="site-footer-brand">
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path d="M12 3c.55 4.95 4.05 8.45 9 9-4.95.55-8.45 4.05-9 9-.55-4.95-4.05-8.45-9-9 4.95-.55 8.45-4.05 9-9z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+    </svg>
+    <span>MeetYourself 探索室</span>
+  </div>
 
 </div>
 
