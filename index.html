@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
-<head>
+<html lang="zh-CN"><head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>SCL-90 心理健康自测 · 好好照顾自己</title>
@@ -619,6 +618,126 @@
   .interp-text{font-size:.92rem;color:var(--text-soft);line-height:2}
   .interp-text strong{color:var(--text)}
 
+  /* ===== 评估结论卡 ===== */
+  .verdict-card{
+    background:rgba(255,255,255,.9);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    margin-bottom:22px;
+    border:1px solid var(--border);
+    overflow:hidden;
+    backdrop-filter:blur(10px);
+  }
+  [data-theme="dark"] .verdict-card{background:rgba(45,38,56,.9)}
+  .verdict-top{
+    padding:30px 28px 24px;text-align:center;color:#fff;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;
+  }
+  .verdict-top.sev-normal{background:linear-gradient(135deg,#82cfa4,#5aa888)}
+  .verdict-top.sev-mild{background:linear-gradient(135deg,#ecc96f,#d9a13b)}
+  .verdict-top.sev-moderate{background:linear-gradient(135deg,#f0a35e,#e07a3f)}
+  .verdict-top.sev-severe{background:linear-gradient(135deg,#e8706a,#cf3f3f)}
+  .verdict-label{font-size:.78rem;opacity:.92;letter-spacing:.22em;margin-bottom:8px}
+  .verdict-grade{font-size:2.1rem;font-weight:800;letter-spacing:.08em;line-height:1.2;margin-bottom:8px}
+  .verdict-score{font-size:.84rem;opacity:.95;line-height:1.7}
+  .verdict-scale{display:block;margin-top:6px;font-size:.72rem;opacity:.85;line-height:1.7;letter-spacing:.02em}
+  .verdict-body{padding:20px 26px 22px}
+  .screen-row{
+    display:flex;align-items:center;gap:10px;
+    padding:10px 0;border-bottom:1px dashed var(--border);
+    font-size:.84rem;color:var(--text-soft);
+  }
+  .screen-row:last-of-type{border-bottom:none}
+  .screen-ico{width:18px;text-align:center;flex:none}
+  .screen-msg{flex:1}
+  .screen-tag{font-size:.68rem;padding:3px 10px;border-radius:10px;font-weight:700;flex:none;letter-spacing:.05em}
+  .screen-tag.pass{background:rgba(116,198,157,.16);color:var(--mint-deep)}
+  .screen-tag.flag{background:rgba(207,63,63,.12);color:#cf3f3f}
+  [data-theme="dark"] .screen-tag.flag{background:rgba(232,112,106,.18);color:#f08a85}
+  .verdict-conclude{
+    margin-top:14px;padding:13px 15px;
+    background:var(--warm-bg);border-radius:12px;
+    font-size:.83rem;color:var(--text-soft);line-height:1.8;
+  }
+  .verdict-conclude strong{color:var(--text)}
+
+  /* ===== 因子四级色标 ===== */
+  .factor-item.sev-normal{border-left-color:var(--mint-deep)}
+  .factor-item.sev-mild{border-left-color:var(--honey)}
+  .factor-item.sev-moderate{border-left-color:var(--coral)}
+  .factor-item.sev-severe{border-left-color:#e05555}
+  .factor-score-label{font-weight:600}
+
+  /* ===== 结构化评估报告 ===== */
+  .report-section{margin-bottom:22px}
+  .report-section:last-child{margin-bottom:0}
+  .report-title{
+    font-size:.95rem;font-weight:700;color:var(--text);
+    margin-bottom:10px;display:flex;align-items:center;gap:8px;
+  }
+  .report-text{font-size:.87rem;color:var(--text-soft);line-height:1.95}
+  .report-text strong{color:var(--text)}
+  .grade-pill{
+    display:inline-block;padding:2px 11px;border-radius:11px;
+    font-size:.72rem;font-weight:700;letter-spacing:.03em;
+  }
+  .grade-pill.sev-normal{background:rgba(116,198,157,.18);color:var(--mint-deep)}
+  .grade-pill.sev-mild{background:rgba(233,196,106,.24);color:#b8860b}
+  .grade-pill.sev-moderate{background:rgba(244,162,97,.2);color:var(--coral)}
+  .grade-pill.sev-severe{background:rgba(224,85,85,.13);color:#d94f4f}
+  [data-theme="dark"] .grade-pill.sev-mild{color:#e3c063}
+  [data-theme="dark"] .grade-pill.sev-severe{color:#f08a85}
+  .report-factor-list{list-style:none;padding:0;margin:8px 0 0}
+  .report-factor-list li{
+    display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+    padding:8px 0;border-bottom:1px dashed var(--border);
+    font-size:.86rem;color:var(--text-soft);
+  }
+  .report-factor-list li:last-child{border-bottom:none}
+  .report-factor-list .rf-name{font-weight:600;color:var(--text);min-width:64px}
+  .report-factor-list .rf-score{font-size:.8rem;color:var(--text-light)}
+  .report-factor-list .rf-note{width:100%;font-size:.8rem;padding-left:2px}
+  .report-note{
+    margin-top:10px;font-size:.78rem;color:var(--text-light);line-height:1.7;
+  }
+  .risk-alert{
+    border:1px solid rgba(207,63,63,.35);
+    background:rgba(207,63,63,.07);
+    border-radius:14px;padding:15px 17px;margin-top:8px;
+  }
+  [data-theme="dark"] .risk-alert{background:rgba(232,112,106,.12);border-color:rgba(232,112,106,.4)}
+  .risk-alert h5{color:#cf3f3f;font-size:.9rem;margin-bottom:6px;display:flex;align-items:center;gap:7px}
+  [data-theme="dark"] .risk-alert h5{color:#f08a85}
+  .risk-alert p{font-size:.84rem;color:var(--text-soft);line-height:1.9}
+  .risk-alert p strong{color:#cf3f3f}
+  [data-theme="dark"] .risk-alert p strong{color:#f08a85}
+  .risk-watch{
+    border:1px solid rgba(233,196,106,.4);
+    background:rgba(233,196,106,.1);
+    border-radius:12px;padding:12px 15px;margin-top:8px;
+    font-size:.82rem;color:var(--text-soft);line-height:1.8;
+  }
+  .report-advice{list-style:none;padding:0;margin:8px 0 0}
+  .report-advice li{
+    padding:7px 0 7px 24px;position:relative;
+    font-size:.86rem;color:var(--text-soft);line-height:1.8;
+  }
+  .report-advice li::before{
+    content:"";position:absolute;left:4px;top:15px;
+    width:7px;height:7px;border-radius:50%;background:var(--coral-light);
+  }
+  .report-closing{
+    margin-top:14px;padding-top:14px;border-top:1px dashed var(--border);
+    font-size:.84rem;color:var(--text-light);font-style:italic;line-height:1.9;
+  }
+  @media(max-width:560px){
+    .verdict-top{padding:24px 20px 20px}
+    .verdict-grade{font-size:1.7rem}
+    .verdict-body{padding:16px 18px 18px}
+    .verdict-scale{font-size:.6rem;letter-spacing:0;word-break:break-word}
+    .verdict-label{letter-spacing:.12em;font-size:.7rem}
+  }
+
   .disclaimer-box{
     background:linear-gradient(135deg,#fff8f0,#fef5ed);
     border-radius:var(--radius-sm);padding:22px 24px;
@@ -753,22 +872,30 @@
   .confirm-modal{
     position:fixed;inset:0;z-index:200;
     background:rgba(0,0,0,.4);backdrop-filter:blur(4px);
-    display:none;align-items:center;justify-content:center;
-    padding:20px;
+    display:none;
   }
-  .confirm-modal.show{display:flex}
+  .confirm-modal.show{display:block}
   .confirm-card{
+    position:fixed;left:50%;top:50%;
+    transform:translate(-50%,-50%);
     background:var(--card);
     border-radius:var(--radius);
     padding:32px 28px;
-    max-width:380px;width:100%;
+    width:calc(100vw - 40px);
+    max-width:380px;
+    max-height:86vh;overflow-y:auto;
     box-shadow:var(--shadow-lg);
     text-align:center;
+    margin:0;
   }
   .confirm-card h3{font-size:1.1rem;margin-bottom:12px;color:var(--text)}
-  .confirm-card p{font-size:.9rem;color:var(--text-soft);margin-bottom:24px;line-height:1.7}
+  .confirm-card p{font-size:.9rem;color:var(--text-soft);margin-bottom:24px;line-height:1.7;overflow-wrap:break-word;word-break:break-word}
   .confirm-actions{display:flex;gap:10px;justify-content:center}
-  .confirm-actions .btn{flex:1}
+  .confirm-actions .btn{flex:1;min-width:0}
+  @media(max-width:480px){
+    .confirm-card{padding:26px 20px;width:calc(100vw - 32px)}
+    .confirm-card p{font-size:.84rem;margin-bottom:20px}
+  }
 
   /* 答题回顾面板 */
   .review-panel{
@@ -842,7 +969,7 @@
 <div class="app">
 
   <!-- 介绍页 -->
-  <section class="intro-screen" id="introScreen">
+  <section class="intro-screen" id="introScreen" style="display: none;">
     <div class="breath-circle">
       <div class="ring3"></div>
       <div class="ring2"></div>
@@ -882,24 +1009,24 @@
       </ul>
     </div>
 
-    <div class="history-card" id="historyCard" style="display:none" onclick="showHistory()">
+    <div class="history-card" id="historyCard" style="display: block;" onclick="showHistory()">
       <div class="history-left">
         <div class="history-icon">📊</div>
         <div class="history-info">
           <div class="h-title">查看历史记录</div>
-          <div class="h-desc" id="historyCount">你有 0 次测试记录</div>
+          <div class="h-desc" id="historyCount">你有 1 次测试记录</div>
         </div>
       </div>
       <div class="history-arrow">→</div>
     </div>
 
-    <div id="resumeCard" style="display:none">
+    <div id="resumeCard" style="display: block;">
       <div class="history-card" onclick="resumeQuiz()">
         <div class="history-left">
           <div class="history-icon">📝</div>
           <div class="history-info">
             <div class="h-title">继续上次答题</div>
-            <div class="h-desc" id="resumeProgress">已完成 0 / 90 题</div>
+            <div class="h-desc" id="resumeProgress">已完成 9 / 90 题</div>
           </div>
         </div>
         <div class="history-arrow">→</div>
@@ -912,7 +1039,7 @@
   </section>
 
   <!-- 答题页 -->
-  <section class="quiz-screen" id="quizScreen">
+  <section class="quiz-screen" id="quizScreen" style="display: none;">
     <div class="quiz-header">
       <div class="progress-top">
         <span class="progress-label">慢慢来，不着急 💛</span>
@@ -971,33 +1098,195 @@
     </div>
     <div id="reviewList"></div>
     <div style="text-align:center;margin-top:20px">
-      <button class="btn btn-primary" onclick="submitFromReview()">提交并查看结果</button>
+      <button class="btn btn-primary" id="submitReviewBtn" onclick="submitFromReview()">提交并查看结果</button>
     </div>
   </div>
 
   <!-- 结果页 -->
-  <section class="result-screen" id="resultScreen">
+  <section class="result-screen" id="resultScreen" style="display: block;">
     <div class="result-header">
-      <div class="result-emoji" id="resultEmoji">🌱</div>
-      <h2 id="resultTitle">谢谢你完成了这次自我对话</h2>
-      <p id="resultSubtitle">以下是基于你作答情况的温柔分析</p>
+      <div class="result-emoji" id="resultEmoji">🌸</div>
+      <h2 id="resultTitle">测评完成：辛苦了，建议给自己一些关注</h2>
+      <p id="resultSubtitle">以下是依据 SCL-90 全国常模与临床通用标准生成的评估报告</p>
     </div>
 
-    <div class="result-summary" id="resultSummary"></div>
+    <div class="result-summary" id="resultSummary">
+    <div class="summary-card warm">
+      <div class="label">总分</div>
+      <div class="value">299</div>
+      <div class="unit">范围 90~450</div>
+    </div>
+    <div class="summary-card mint">
+      <div class="label">总均分 GSI</div>
+      <div class="value">3.32</div>
+      <div class="unit">正常 &lt; 2.00</div>
+    </div>
+    <div class="summary-card lav">
+      <div class="label">阳性项目数</div>
+      <div class="value">89</div>
+      <div class="unit">共 90 项 · 临界 43</div>
+    </div>
+    <div class="summary-card honey">
+      <div class="label">阳性症状均分</div>
+      <div class="value">3.35</div>
+      <div class="unit">PSDI · 1~5 级</div>
+    </div>
+  </div>
+
+    <div class="verdict-card" id="verdictCard">
+    <div class="verdict-top sev-moderate">
+      <div class="verdict-label">心 理 症 状 严 重 程 度</div>
+      <div class="verdict-grade">中度</div>
+      <div class="verdict-score">总均分 GSI 3.32（总分 299）<span class="verdict-scale">界值：&lt;2 正常 / 2~2.99 轻度 / 3~3.99 中度 / ≥4 重度</span></div>
+    </div>
+    <div class="verdict-body">
+      
+    <div class="screen-row">
+      <span class="screen-ico">🔺</span>
+      <span class="screen-msg">总分超过 160 分</span>
+      <span class="screen-tag flag">达到</span>
+    </div>
+      
+    <div class="screen-row">
+      <span class="screen-ico">🔺</span>
+      <span class="screen-msg">阳性项目数超过 43 项（当前 89 项）</span>
+      <span class="screen-tag flag">达到</span>
+    </div>
+      
+    <div class="screen-row">
+      <span class="screen-ico">🔺</span>
+      <span class="screen-msg">任一因子分达到或超过 2 分</span>
+      <span class="screen-tag flag">达到</span>
+    </div>
+      <div class="verdict-conclude">
+        <strong>筛查结论：阳性。</strong>
+        以上任一标准达到即为筛查阳性，提示需要进一步检查评估；<strong>筛查阳性不等于患病</strong>，请结合下方报告与自身实际状态，必要时寻求专业帮助。
+        <br>总均分处于 <strong>3.00~3.99 中度范围</strong>，提示症状的频度和强度已较明显，建议尽早到正规医院精神（心理）科或专业心理机构进一步评估。
+      </div>
+    </div>
+  </div>
 
     <div class="chart-section">
       <h3>🌿 你的心理维度图谱</h3>
       <p class="chart-desc">十个维度的自我觉察（虚线为全国常模参考）</p>
       <div class="chart-container">
-        <canvas id="radarChart"></canvas>
+        <canvas id="radarChart" width="627" height="627" style="display: block; box-sizing: border-box; height: 418px; width: 418px;"></canvas>
       </div>
     </div>
 
-    <div class="factor-list" id="factorList">
-      <p style="text-align:center;color:var(--text-soft);font-size:.85rem;padding:10px 0">
+    <div class="factor-list" id="factorList"><p style="text-align:center;color:var(--text-soft);font-size:.85rem;padding:10px 0">
         💡 点击每个维度可查看详细的自我关怀建议
-      </p>
-    </div>
+      </p><div class="factor-item sev-moderate" style="animation-delay: 0s;">
+      <div class="factor-info">
+        <div class="factor-name">躯体化 <span style="font-size:.72rem;color:var(--text-light);font-weight:400">· 身体的不适信号</span></div>
+        <div class="factor-bar">
+          <div class="factor-bar-fill" style="width: 75%; background: rgb(240, 163, 94);"></div>
+        </div>
+      </div>
+      <div class="factor-score-box">
+        <div class="factor-score-val" style="color:#f0a35e">3.75</div>
+        <div class="factor-score-label">中度</div>
+      </div>
+    </div><div class="factor-item sev-moderate" style="animation-delay: 0.05s;">
+      <div class="factor-info">
+        <div class="factor-name">强迫倾向 <span style="font-size:.72rem;color:var(--text-light);font-weight:400">· 那些放不下的想法</span></div>
+        <div class="factor-bar">
+          <div class="factor-bar-fill" style="width: 76%; background: rgb(240, 163, 94);"></div>
+        </div>
+      </div>
+      <div class="factor-score-box">
+        <div class="factor-score-val" style="color:#f0a35e">3.80</div>
+        <div class="factor-score-label">中度</div>
+      </div>
+    </div><div class="factor-item sev-moderate" style="animation-delay: 0.1s;">
+      <div class="factor-info">
+        <div class="factor-name">人际敏感 <span style="font-size:.72rem;color:var(--text-light);font-weight:400">· 与人相处的不自在</span></div>
+        <div class="factor-bar">
+          <div class="factor-bar-fill" style="width: 69%; background: rgb(240, 163, 94);"></div>
+        </div>
+      </div>
+      <div class="factor-score-box">
+        <div class="factor-score-val" style="color:#f0a35e">3.44</div>
+        <div class="factor-score-label">中度</div>
+      </div>
+    </div><div class="factor-item sev-moderate" style="animation-delay: 0.15s;">
+      <div class="factor-info">
+        <div class="factor-name">情绪低落 <span style="font-size:.72rem;color:var(--text-light);font-weight:400">· 心里的那片乌云</span></div>
+        <div class="factor-bar">
+          <div class="factor-bar-fill" style="width: 72%; background: rgb(240, 163, 94);"></div>
+        </div>
+      </div>
+      <div class="factor-score-box">
+        <div class="factor-score-val" style="color:#f0a35e">3.62</div>
+        <div class="factor-score-label">中度</div>
+      </div>
+    </div><div class="factor-item sev-moderate" style="animation-delay: 0.2s;">
+      <div class="factor-info">
+        <div class="factor-name">焦虑不安 <span style="font-size:.72rem;color:var(--text-light);font-weight:400">· 静不下来的心</span></div>
+        <div class="factor-bar">
+          <div class="factor-bar-fill" style="width: 62%; background: rgb(240, 163, 94);"></div>
+        </div>
+      </div>
+      <div class="factor-score-box">
+        <div class="factor-score-val" style="color:#f0a35e">3.10</div>
+        <div class="factor-score-label">中度</div>
+      </div>
+    </div><div class="factor-item sev-moderate" style="animation-delay: 0.25s;">
+      <div class="factor-info">
+        <div class="factor-name">易怒情绪 <span style="font-size:.72rem;color:var(--text-light);font-weight:400">· 压不住的小火苗</span></div>
+        <div class="factor-bar">
+          <div class="factor-bar-fill" style="width: 60%; background: rgb(240, 163, 94);"></div>
+        </div>
+      </div>
+      <div class="factor-score-box">
+        <div class="factor-score-val" style="color:#f0a35e">3.00</div>
+        <div class="factor-score-label">中度</div>
+      </div>
+    </div><div class="factor-item sev-moderate" style="animation-delay: 0.3s;">
+      <div class="factor-info">
+        <div class="factor-name">恐惧回避 <span style="font-size:.72rem;color:var(--text-light);font-weight:400">· 想要躲开的场景</span></div>
+        <div class="factor-bar">
+          <div class="factor-bar-fill" style="width: 63%; background: rgb(240, 163, 94);"></div>
+        </div>
+      </div>
+      <div class="factor-score-box">
+        <div class="factor-score-val" style="color:#f0a35e">3.14</div>
+        <div class="factor-score-label">中度</div>
+      </div>
+    </div><div class="factor-item sev-moderate" style="animation-delay: 0.35s;">
+      <div class="factor-info">
+        <div class="factor-name">多疑敏感 <span style="font-size:.72rem;color:var(--text-light);font-weight:400">· 对他人防备的心</span></div>
+        <div class="factor-bar">
+          <div class="factor-bar-fill" style="width: 63%; background: rgb(240, 163, 94);"></div>
+        </div>
+      </div>
+      <div class="factor-score-box">
+        <div class="factor-score-val" style="color:#f0a35e">3.17</div>
+        <div class="factor-score-label">中度</div>
+      </div>
+    </div><div class="factor-item sev-mild" style="animation-delay: 0.4s;">
+      <div class="factor-info">
+        <div class="factor-name">内心疏离 <span style="font-size:.72rem;color:var(--text-light);font-weight:400">· 与世界拉开距离</span></div>
+        <div class="factor-bar">
+          <div class="factor-bar-fill" style="width: 52%; background: rgb(233, 196, 106);"></div>
+        </div>
+      </div>
+      <div class="factor-score-box">
+        <div class="factor-score-val" style="color:#e9c46a">2.60</div>
+        <div class="factor-score-label">轻度</div>
+      </div>
+    </div><div class="factor-item sev-moderate" style="animation-delay: 0.45s;">
+      <div class="factor-info">
+        <div class="factor-name">睡眠饮食 <span style="font-size:.72rem;color:var(--text-light);font-weight:400">· 生活的基本节律</span></div>
+        <div class="factor-bar">
+          <div class="factor-bar-fill" style="width: 63%; background: rgb(240, 163, 94);"></div>
+        </div>
+      </div>
+      <div class="factor-score-box">
+        <div class="factor-score-val" style="color:#f0a35e">3.14</div>
+        <div class="factor-score-label">中度</div>
+      </div>
+    </div></div>
 
     <div class="breathing-tool" onclick="openBreathingExercise()">
       <div class="breath-circle-mini">
@@ -1008,13 +1297,116 @@
     </div>
 
     <div class="interpretation-box">
-      <h3>💌 写给你</h3>
-      <div id="interpretationContent"></div>
+      <h3>📋 心理评估报告</h3>
+      <div id="interpretationContent">
+    <div class="report-section">
+      <div class="report-title">① 总体评估</div>
+      <p class="report-text">
+        本次测评总均分 <strong>3.32</strong>（总分 299 分），处于 <strong>3.00~3.99 中度范围</strong>，阳性项目 89 项。提示相关症状的频度与强度已较明显，可能已影响到情绪、睡眠、人际或日常效率，建议予以重视，尽早进行专业评估。
+        <span class="grade-pill sev-moderate" style="margin-left:6px">中度</span>
+      </p>
+      <p class="report-note">分级依据：总均分（GSI＝总分÷90）＜2.00 为正常，2.00~2.99 为轻度，3.00~3.99 为中度，≥4.00 为重度。</p>
+    </div>
+    <div class="report-section">
+      <div class="report-title">② 阳性筛查结论</div>
+      <p class="report-text">
+        按全国常模标准（总分＞160、阳性项目数＞43、任一因子分≥2，三项任一满足即为阳性），本次筛查结果为
+        <strong style="color:#cf3f3f">阳性（达到 3 项）</strong>。
+        筛查阳性提示存在需要进一步了解的心理症状，<strong>但不等于患有某种疾病</strong>，是否构成临床诊断需要由精神（心理）科医生结合面谈综合判断。
+      </p>
+    </div>
+    <div class="report-section">
+      <div class="report-title">③ 各维度分析</div><ul class="report-factor-list">
+        <li>
+          <span class="rf-name">强迫倾向</span>
+          <span class="grade-pill sev-moderate">中度</span>
+          <span class="rf-score">因子分 3.80</span>
+          <span class="rf-note">明知没有必要却无法摆脱的想法、冲动或行为，以及记忆力下降、脑子变空等感知问题</span>
+        </li>
+        <li>
+          <span class="rf-name">躯体化</span>
+          <span class="grade-pill sev-moderate">中度</span>
+          <span class="rf-score">因子分 3.75</span>
+          <span class="rf-note">主观躯体不适，如心血管、胃肠、呼吸系统主诉及头疼、腰背酸痛等焦虑的躯体表现</span>
+        </li>
+        <li>
+          <span class="rf-name">情绪低落</span>
+          <span class="grade-pill sev-moderate">中度</span>
+          <span class="rf-score">因子分 3.62</span>
+          <span class="rf-note">抑郁苦闷的心境、兴趣减退、活动愿望与活力下降、失望悲观，含死亡及自杀相关条目</span>
+        </li>
+        <li>
+          <span class="rf-name">人际敏感</span>
+          <span class="grade-pill sev-moderate">中度</span>
+          <span class="rf-score">因子分 3.44</span>
+          <span class="rf-note">与人交往中的不自在感、自卑感，在与他人比较时尤为明显</span>
+        </li>
+        <li>
+          <span class="rf-name">多疑敏感</span>
+          <span class="grade-pill sev-moderate">中度</span>
+          <span class="rf-score">因子分 3.17</span>
+          <span class="rf-note">投射性思维、敌对、猜疑、关系观念、被动体验与夸大等思维方面的问题</span>
+        </li>
+        <li>
+          <span class="rf-name">恐惧回避</span>
+          <span class="grade-pill sev-moderate">中度</span>
+          <span class="rf-score">因子分 3.14</span>
+          <span class="rf-note">对出门旅行、空旷场所、人群、公共场合、交通工具及社交场景的恐惧与回避</span>
+        </li>
+        <li>
+          <span class="rf-name">睡眠饮食</span>
+          <span class="grade-pill sev-moderate">中度</span>
+          <span class="rf-score">因子分 3.14</span>
+          <span class="rf-note">睡眠、饮食等基本生活节律方面的问题</span>
+        </li>
+        <li>
+          <span class="rf-name">焦虑不安</span>
+          <span class="grade-pill sev-moderate">中度</span>
+          <span class="rf-score">因子分 3.10</span>
+          <span class="rf-note">无法静息、神经过敏、紧张及由此产生的躯体征象，包括游离不定的焦虑与惊恐发作</span>
+        </li>
+        <li>
+          <span class="rf-name">易怒情绪</span>
+          <span class="grade-pill sev-moderate">中度</span>
+          <span class="rf-score">因子分 3.00</span>
+          <span class="rf-note">从思维、情感到行为的敌对表现，如厌烦、争论、摔物乃至不可抑制的冲动爆发</span>
+        </li>
+        <li>
+          <span class="rf-name">内心疏离</span>
+          <span class="grade-pill sev-mild">轻度</span>
+          <span class="rf-score">因子分 2.60</span>
+          <span class="rf-note">幻听、思维播散、被控制感、思维被插入等精神分裂样症状条目，以及疏离感</span>
+        </li></ul>
+      <p class="report-note">判读：因子分＝该因子各条目平均分（1~5 分），≥2 分提示该维度可能存在症状，≥3 分为中度以上，≥4 分为重度；其余未列出维度均在正常范围。</p></div>
+    <div class="report-section">
+      <div class="report-title">④ 情绪低落（抑郁）专项评估 <span class="grade-pill sev-moderate">中度 · 3.62</span></div>
+      <p class="report-text">
+        情绪低落（抑郁）因子分 <strong>3.62</strong>，为<strong>中度</strong>升高，提示可能存在较明显的抑郁症状群（持续情绪低落、兴趣减退、无望感、活力下降等）。SCL-90 属于症状筛查工具，<strong>不能据此诊断抑郁症</strong>。建议尽快至精神（心理）科面诊，临床通常还会使用 PHQ-9、抑郁自评量表（SDS）或由医生评定的汉密尔顿抑郁量表（HAMD）作进一步评估。
+      </p>
+      <p class="report-note">该因子共 13 个条目（第 5、14、15、20、22、26、29、30、31、32、54、71、79 题），反映与临床上抑郁症状群相联系的表现。</p>
+    </div>
+      <div class="report-section">
+        <div class="report-title">⑤ 高危条目预警</div>
+        <div class="risk-alert">
+          <h5>⚠️ 关于第 15 题「想结束自己的生命」（你选择了：偏重）</h5>
+          <p>这是一个需要<strong>认真对待</strong>的信号——它不代表你一定会做什么，但说明此刻你可能正承受着难以独自承担的痛苦。<br>
+          请<strong>不要独处</strong>，立刻拨打全国 24 小时统一心理援助热线 <strong>12356</strong> 或希望 24 热线 <strong>400-161-9995</strong>，也可以马上告知身边信任的家人或朋友，并尽快前往最近医院的急诊或精神（心理）科。你值得被帮助，也一定会有人愿意陪你走过这段路。</p>
+        </div>
+      </div>
+    <div class="report-section">
+      <div class="report-title">⑥ 处理建议</div>
+      <ul class="report-advice">
+        <li>建议尽早预约正规医院精神（心理）科门诊或专业心理咨询，进行面对面评估</li><li>就诊前可记录症状开始时间、持续时长，以及对工作、学习、睡眠和人际的影响，便于医生判断</li><li>告知家人或信任的朋友你最近的状态，争取陪伴与支持，不必独自硬扛</li>
+      </ul>
+      <p class="report-closing">
+        数字只是一扇窗，不是你整个人的样子。无论结果如何，谢谢你愿意诚实地看见自己——照顾好自己，本身就是一种了不起的能力。
+      </p>
+    </div></div>
     </div>
 
     <div class="disclaimer-box">
-      <h4>🌿 温馨提醒</h4>
-      <p>这份量表是一面镜子，帮你看见自己的状态，但它不能代替专业的诊断。如果结果让你有些担心，或者你正经历困扰，请相信寻求帮助是勇敢的选择。你可以联系专业心理咨询师，或拨打全国心理援助热线 <strong>400-161-9995</strong>。无论结果如何，你都值得被温柔对待。</p>
+      <h4>🌿 重要说明</h4>
+      <p>本报告基于 SCL-90 症状自评量表，反映的是你<strong>最近一周</strong>的主观感受，属于心理健康<strong>筛查</strong>工具，<strong>不能替代精神（心理）科医生面诊，也不作为任何疾病的诊断依据</strong>。筛查阳性、症状持续两周以上、影响日常生活或让你明显痛苦时，建议前往正规三甲医院精神（心理）科或精神卫生中心进一步评估。全国 24 小时统一心理援助热线 <strong>12356</strong>，希望 24 热线 <strong>400-161-9995</strong>。</p>
     </div>
 
     <div class="result-actions">
@@ -1026,7 +1418,7 @@
   </section>
 
   <!-- 历史记录页 -->
-  <section class="history-screen" id="historyScreen">
+  <section class="history-screen" id="historyScreen" style="display: none;">
     <div style="display:flex;align-items:center;margin-bottom:20px">
       <button class="icon-btn" onclick="backToIntro()">←</button>
       <h2 style="flex:1;text-align:center;margin-right:42px">📊 历史记录</h2>
@@ -1037,8 +1429,19 @@
         <canvas id="trendChart"></canvas>
       </div>
     </div>
-    <div id="historyList"></div>
-    <div class="history-empty" id="historyEmpty">
+    <div id="historyList">
+      <div class="history-item" onclick="viewHistoryItem(0)">
+        <div class="history-item-top">
+          <span class="history-date">10月22日 10:31</span>
+          <span class="history-score">299分</span>
+        </div>
+        <div class="history-item-factors">
+          <span class="grade-pill sev-moderate" style="margin-right:6px">中度</span>
+          <span class="history-factor-tag warn">躯体化</span><span class="history-factor-tag warn">强迫倾向</span><span class="history-factor-tag warn">人际敏感</span><span class="history-factor-tag warn">情绪低落</span>
+        </div>
+      </div>
+    </div>
+    <div class="history-empty" id="historyEmpty" style="display: none;">
       <div class="emoji">📝</div>
       <p>还没有测试记录</p>
       <p style="font-size:.85rem;margin-top:6px">完成一次测试后，结果会自动保存在这里</p>
@@ -1047,7 +1450,7 @@
 
   <div class="site-footer-brand">
     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <path d="M12 3c.55 4.95 4.05 8.45 9 9-4.95.55-8.45 4.05-9 9-.55-4.95-4.05-8.45-9-9 4.95-.55 8.45-4.05 9-9z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+      <path d="M12 3c.55 4.95 4.05 8.45 9 9-4.95.55-8.45 4.05-9 9-.55-4.95-4.05-8.45-9-9 4.95-.55 8.45-4.05 9-9z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"></path>
     </svg>
     <span>MeetYourself 探索室</span>
   </div>
@@ -1076,11 +1479,11 @@
 <!-- 确认弹窗 -->
 <div class="confirm-modal" id="confirmModal">
   <div class="confirm-card">
-    <h3 id="confirmTitle">确认提交？</h3>
-    <p id="confirmText">还有题目未回答，确定要提交吗？</p>
+    <h3 id="confirmTitle">🧘 1分钟呼吸放松</h3>
+    <p id="confirmText">跟随圆圈的节奏：扩大时吸气，收缩时呼气。准备好了吗？</p>
     <div class="confirm-actions">
       <button class="btn btn-ghost" onclick="closeConfirm()">再想想</button>
-      <button class="btn btn-primary" id="confirmOkBtn">确定</button>
+      <button class="btn btn-primary" id="confirmOkBtn">开始练习</button>
     </div>
   </div>
 </div>
@@ -1701,6 +2104,10 @@ function showReview(){
     };
     list.appendChild(item);
   }
+  let missCount = 0;
+  for(let i = 1; i <= 90; i++){ if(answers[i] === 0) missCount++; }
+  const submitBtn = document.getElementById("submitReviewBtn");
+  submitBtn.textContent = missCount > 0 ? `还有 ${missCount} 题未作答，去补答` : "提交并查看结果";
   panel.classList.add("open");
 }
 
@@ -1709,21 +2116,32 @@ function hideReview(){
 }
 
 function submitFromReview(){
-  hideReview();
+  // 不预先关闭回顾面板：有未答题时用户点「返回」仍停留在答案回顾；
+  // 全部答完时 showResults 会切到结果屏，补答回调中会自行 hideReview()。
   trySubmit();
 }
 
 // ============ 提交确认 ============
+// SCL-90 须完整作答 90 题：总分 160、阳性项目数 43、因子分等常模界值
+// 均以完整作答为基准，漏答按 0 分计会低估症状严重程度，因此提交前强制补答。
 function trySubmit(){
   const unanswered = [];
   for(let i = 1; i <= 90; i++){
     if(answers[i] === 0) unanswered.push(i);
   }
   if(unanswered.length > 0){
+    const firstMiss = unanswered[0];
+    const shown = unanswered.slice(0,5).join("、") + (unanswered.length > 5 ? " 等" : "");
     showConfirm(
-      `还有 ${unanswered.length} 题未回答`,
-      `第 ${unanswered.slice(0,5).join("、")}${unanswered.length>5?"...":""} 题还没有回答。确定要提交吗？`,
-      () => { closeConfirm(); showResults(); }
+      `还有 ${unanswered.length} 题未作答`,
+      `SCL-90 需要答完全部 90 题，结果才能对照全国常模准确计分；漏答题目按 0 分计算会低估你的真实状态。未答题目：第 ${shown}。点击「去补答」可跳转到第一道未答题。`,
+      () => {
+        closeConfirm();
+        hideReview();
+        goToQuestion(firstMiss);
+        setTimeout(() => showToast(`第 ${firstMiss} 题还未作答，请补答后再提交`), 300);
+      },
+      "去补答"
     );
   } else {
     showResults();
@@ -1731,6 +2149,15 @@ function trySubmit(){
 }
 
 // ============ 结果计算 ============
+// 严重程度四级分级（SCL-90 临床通用标准，适用于总均分与各因子分）：
+// <2.00 正常；2.00~2.99 轻度；3.00~3.99 中度；≥4.00 重度
+function getSeverity(score){
+  if(score < 2) return {key:"normal", label:"正常", color:"#5aa888", bar:"#74c69d"};
+  if(score < 3) return {key:"mild", label:"轻度", color:"#c89a2e", bar:"#e9c46a"};
+  if(score < 4) return {key:"moderate", label:"中度", color:"#e07a3f", bar:"#f0a35e"};
+  return {key:"severe", label:"重度", color:"#cf3f3f", bar:"#e8706a"};
+}
+
 function calculateResults(){
   let totalScore = 0;
   let positiveItems = 0;
@@ -1742,7 +2169,8 @@ function calculateResults(){
     if(answers[i] === 1) negativeItems++;
   }
 
-  const gsi = (totalScore / 90).toFixed(2);
+  const gsiNum = totalScore / 90;
+  const gsi = gsiNum.toFixed(2);
   const pst = positiveItems;
   const psdi = positiveItems > 0 ? ((totalScore - negativeItems) / positiveItems).toFixed(2) : "0.00";
 
@@ -1753,7 +2181,16 @@ function calculateResults(){
     return { ...f, rawSum: sum, score: parseFloat(avg.toFixed(2)), elevated: avg >= 2.0 };
   });
 
-  return { totalScore, gsi, pst, psdi, factorResults, positiveItems, negativeItems };
+  // 全国常模筛查阳性三标准：总分>160 / 阳性项目数>43 / 任一因子分≥2
+  const screenCriteria = {
+    total: totalScore > 160,
+    pst: positiveItems > 43,
+    factor: factorResults.some(f => f.score >= 2)
+  };
+  const isPositive = screenCriteria.total || screenCriteria.pst || screenCriteria.factor;
+  const overall = getSeverity(gsiNum);
+
+  return { totalScore, gsi, gsiNum, pst, psdi, factorResults, positiveItems, negativeItems, screenCriteria, isPositive, overall };
 }
 
 // ============ 显示结果 ============
@@ -1766,6 +2203,7 @@ function showResults(){
   document.getElementById("resultScreen").style.display = "block";
 
   renderSummary(results);
+  renderVerdict(results);
   renderRadarChart(results);
   renderFactorList(results);
   renderInterpretation(results);
@@ -1779,22 +2217,61 @@ function renderSummary(results){
     <div class="summary-card warm">
       <div class="label">总分</div>
       <div class="value">${totalScore}</div>
-      <div class="unit">满分450</div>
+      <div class="unit">范围 90~450</div>
     </div>
     <div class="summary-card mint">
       <div class="label">总均分 GSI</div>
       <div class="value">${gsi}</div>
-      <div class="unit">1~5级</div>
+      <div class="unit">正常 &lt; 2.00</div>
     </div>
     <div class="summary-card lav">
       <div class="label">阳性项目数</div>
       <div class="value">${pst}</div>
-      <div class="unit">满分90</div>
+      <div class="unit">共 90 项 · 临界 43</div>
     </div>
     <div class="summary-card honey">
-      <div class="label">阳性均分</div>
+      <div class="label">阳性症状均分</div>
       <div class="value">${psdi}</div>
-      <div class="unit">PSDI</div>
+      <div class="unit">PSDI · 1~5 级</div>
+    </div>
+  `;
+}
+
+// ============ 评估结论卡 ============
+function renderVerdict(results){
+  const { totalScore, gsi, pst, screenCriteria, isPositive, overall } = results;
+
+  const conclude = {
+    normal: "总均分处于 <strong>1.00~1.99 正常范围</strong>，本次自评未提示明显心理症状，继续保持规律作息与良好的情绪调节习惯即可。",
+    mild: "总均分处于 <strong>2.00~2.99 轻度范围</strong>，提示近一周可能存在轻度心理不适，多为压力或生活事件后的反应，建议自我调节并在 2~4 周后复测。",
+    moderate: "总均分处于 <strong>3.00~3.99 中度范围</strong>，提示症状的频度和强度已较明显，建议尽早到正规医院精神（心理）科或专业心理机构进一步评估。",
+    severe: "总均分处于 <strong>≥4.00 重度范围</strong>，提示心理症状较重，建议尽快前往三甲医院精神（心理）科或精神卫生中心面诊，由专业人员评估诊断。"
+  }[overall.key];
+
+  const row = (msg, hit) => `
+    <div class="screen-row">
+      <span class="screen-ico">${hit ? "🔺" : "✓"}</span>
+      <span class="screen-msg">${msg}</span>
+      <span class="screen-tag ${hit ? "flag" : "pass"}">${hit ? "达到" : "未达到"}</span>
+    </div>`;
+
+  document.getElementById("verdictCard").innerHTML = `
+    <div class="verdict-top sev-${overall.key}">
+      <div class="verdict-label">心 理 症 状 严 重 程 度</div>
+      <div class="verdict-grade">${overall.label}</div>
+      <div class="verdict-score">总均分 GSI ${gsi}（总分 ${totalScore}）<span class="verdict-scale">界值：&lt;2 正常 / 2~2.99 轻度 / 3~3.99 中度 / ≥4 重度</span></div>
+    </div>
+    <div class="verdict-body">
+      ${row("总分超过 160 分", screenCriteria.total)}
+      ${row("阳性项目数超过 43 项（当前 " + pst + " 项）", screenCriteria.pst)}
+      ${row("任一因子分达到或超过 2 分", screenCriteria.factor)}
+      <div class="verdict-conclude">
+        <strong>筛查结论：${isPositive ? "阳性" : "阴性"}。</strong>
+        ${isPositive
+          ? "以上任一标准达到即为筛查阳性，提示需要进一步检查评估；<strong>筛查阳性不等于患病</strong>，请结合下方报告与自身实际状态，必要时寻求专业帮助。"
+          : "三项标准均未达到，本次筛查为阴性，暂未发现需要进一步检查的明显信号。"}
+        <br>${conclude}
+      </div>
     </div>
   `;
 }
@@ -1837,9 +2314,9 @@ function renderRadarChart(results){
           pointHoverRadius: 7,
           pointBackgroundColor: function(ctx){
             const val = ctx.raw;
-            if(val >= 3) return "rgba(233,196,106,1)";
-            if(val >= 2.5) return "rgba(244,162,97,1)";
-            if(val >= 2) return "rgba(233,196,106,.85)";
+            if(val >= 4) return "rgba(207,63,63,1)";
+            if(val >= 3) return "rgba(224,122,63,1)";
+            if(val >= 2) return "rgba(217,161,59,1)";
             return "rgba(116,198,157,1)";
           },
           pointBorderColor: "#fff",
@@ -1886,12 +2363,10 @@ function renderFactorList(results){
   if(hint) container.appendChild(hint);
 
   results.factorResults.forEach((f, idx) => {
-    let levelClass = "gentle";
-    let levelText = "状态平稳";
-    let barColor = "#74c69d";
-    if(f.score >= 3){ levelClass = "care"; levelText = "需要多关爱"; barColor = "#e9c46a"; }
-    else if(f.score >= 2.5){ levelClass = "care"; levelText = "稍需留意"; barColor = "#f4a261"; }
-    else if(f.score >= 2){ levelClass = "notice"; levelText = "略有波动"; barColor = "#e9c46a"; }
+    const sev = getSeverity(f.score);
+    const levelClass = "sev-" + sev.key;
+    const levelText = sev.label;
+    const barColor = sev.bar;
 
     const barWidth = (f.score / 5 * 100).toFixed(0);
 
@@ -1923,19 +2398,18 @@ function renderFactorList(results){
 
 // ============ 维度详情 ============
 function showFactorDetail(factor){
-  let levelClass = "good";
-  let levelText = "状态平稳 💚";
-  if(factor.score >= 3){ levelClass = "care"; levelText = "需要多关爱 💛"; }
-  else if(factor.score >= 2.5){ levelClass = "care"; levelText = "稍需留意 🧡"; }
-  else if(factor.score >= 2){ levelClass = "gentle"; levelText = "略有波动 💫"; }
+  const sev = getSeverity(factor.score);
+  const levelClass = "sev-" + sev.key;
+  const levelText = "严重程度：" + sev.label + "（因子分 " + factor.score.toFixed(2) + "）";
 
   const suggestionsHtml = factor.suggestions.map(s => `<li>${s}</li>`).join("");
 
   document.getElementById("factorDetailContent").innerHTML = `
     <h3>${factor.name}</h3>
     <p style="font-size:.85rem;color:var(--text-soft);margin-bottom:4px">${factor.desc}</p>
-    <div class="score-big" style="color:var(--coral)">${factor.score.toFixed(2)}</div>
-    <span class="level-tag interp-level ${levelClass}">${levelText}</span>
+    <div class="score-big" style="color:${sev.color}">${factor.score.toFixed(2)}</div>
+    <span class="level-tag grade-pill ${levelClass}">${levelText}</span>
+    <p style="font-size:.76rem;color:var(--text-light);margin-top:8px;line-height:1.7">判读标准：因子分 &lt;2 正常 · 2~2.99 轻度 · 3~3.99 中度 · ≥4 重度</p>
     <h4 style="font-size:.95rem;margin:16px 0 8px;color:var(--text)">🌿 自我关怀建议</h4>
     <ul class="suggestion-list">${suggestionsHtml}</ul>
   `;
@@ -1948,92 +2422,167 @@ function closeFactorDetail(e){
   }
 }
 
-// ============ 解读 ============
+// ============ 结构化评估报告 ============
+const factorClinicalNote = {
+  somatization:"主观躯体不适，如心血管、胃肠、呼吸系统主诉及头疼、腰背酸痛等焦虑的躯体表现",
+  ocd:"明知没有必要却无法摆脱的想法、冲动或行为，以及记忆力下降、脑子变空等感知问题",
+  interpersonal:"与人交往中的不自在感、自卑感，在与他人比较时尤为明显",
+  depression:"抑郁苦闷的心境、兴趣减退、活动愿望与活力下降、失望悲观，含死亡及自杀相关条目",
+  anxiety:"无法静息、神经过敏、紧张及由此产生的躯体征象，包括游离不定的焦虑与惊恐发作",
+  hostility:"从思维、情感到行为的敌对表现，如厌烦、争论、摔物乃至不可抑制的冲动爆发",
+  phobia:"对出门旅行、空旷场所、人群、公共场合、交通工具及社交场景的恐惧与回避",
+  paranoid:"投射性思维、敌对、猜疑、关系观念、被动体验与夸大等思维方面的问题",
+  psychoticism:"幻听、思维播散、被控制感、思维被插入等精神分裂样症状条目，以及疏离感",
+  other:"睡眠、饮食等基本生活节律方面的问题"
+};
+
+const gradeHeader = {
+  normal:{emoji:"🌿", title:"测评完成：整体状态平稳"},
+  mild:{emoji:"🌱", title:"测评完成：近期可能有些轻微波动"},
+  moderate:{emoji:"🌸", title:"测评完成：辛苦了，建议给自己一些关注"},
+  severe:{emoji:"🌷", title:"测评完成：你承受了很多，请一定寻求支持"}
+};
+
+const overallAssessText = {
+  normal:"本次测评总均分 <strong>{gsi}</strong>（总分 {total} 分），处于 <strong>1.00~1.99 正常范围</strong>，阳性项目 {pst} 项，未提示明显心理症状。",
+  mild:"本次测评总均分 <strong>{gsi}</strong>（总分 {total} 分），处于 <strong>2.00~2.99 轻度范围</strong>，阳性项目 {pst} 项。提示你近一周可能存在轻度的心理不适，程度较轻，常见于压力事件或生活变化后的情绪反应，多数可经自我调节缓解。",
+  moderate:"本次测评总均分 <strong>{gsi}</strong>（总分 {total} 分），处于 <strong>3.00~3.99 中度范围</strong>，阳性项目 {pst} 项。提示相关症状的频度与强度已较明显，可能已影响到情绪、睡眠、人际或日常效率，建议予以重视，尽早进行专业评估。",
+  severe:"本次测评总均分 <strong>{gsi}</strong>（总分 {total} 分），处于 <strong>≥4.00 重度范围</strong>，阳性项目 {pst} 项。提示心理症状较重、主观痛苦明显，建议尽快前往正规三甲医院精神（心理）科或精神卫生中心面诊，由专业人员评估并制定干预方案。"
+};
+
+const depressionAssessText = {
+  normal:"情绪低落（抑郁）因子分 <strong>{s}</strong>，处于正常范围，本次自评未见明显抑郁相关症状。",
+  mild:"情绪低落（抑郁）因子分 <strong>{s}</strong>，为<strong>轻度</strong>升高。提示近一周可能有轻度情绪低落、兴趣或精力下降等体验，多为境遇性反应。建议规律作息、适度运动、主动倾诉，2~4 周后复测，或进一步使用 <strong>PHQ-9 抑郁症筛查量表</strong>评估。",
+  moderate:"情绪低落（抑郁）因子分 <strong>{s}</strong>，为<strong>中度</strong>升高，提示可能存在较明显的抑郁症状群（持续情绪低落、兴趣减退、无望感、活力下降等）。SCL-90 属于症状筛查工具，<strong>不能据此诊断抑郁症</strong>。建议尽快至精神（心理）科面诊，临床通常还会使用 PHQ-9、抑郁自评量表（SDS）或由医生评定的汉密尔顿抑郁量表（HAMD）作进一步评估。",
+  severe:"情绪低落（抑郁）因子分 <strong>{s}</strong>，为<strong>重度</strong>升高，提示抑郁症状突出。请格外留意下方高危预警条目，<strong>建议尽快在家人或信任的人陪同下到三甲医院精神（心理）科/精神卫生中心就诊</strong>，医生可能结合 PHQ-9、SDS、HAMD 等检查明确情况。"
+};
+
+const gradeAdvice = {
+  normal:[
+    "继续保持规律作息、适量运动与稳定的社交支持",
+    "把自我觉察保持下去，可每隔 1~3 个月自测一次，观察状态变化"
+  ],
+  mild:[
+    "优先自我调节：规律作息、有氧运动、呼吸放松练习，向信任的人倾诉",
+    "减少咖啡因和酒精，睡前 1 小时放下手机，保证睡眠",
+    "建议 2~4 周后复测；若症状持续、加重或开始影响生活，及时寻求心理咨询或到心理科就诊"
+  ],
+  moderate:[
+    "建议尽早预约正规医院精神（心理）科门诊或专业心理咨询，进行面对面评估",
+    "就诊前可记录症状开始时间、持续时长，以及对工作、学习、睡眠和人际的影响，便于医生判断",
+    "告知家人或信任的朋友你最近的状态，争取陪伴与支持，不必独自硬扛"
+  ],
+  severe:[
+    "建议尽快（最好由家人陪同）到三甲医院精神（心理）科或精神卫生中心面诊",
+    "遵医嘱完成进一步评估与治疗，心理治疗与药物治疗都是规范、有效的手段",
+    "若出现自伤、自杀念头，或无法保证自身安全，请立即拨打 <strong>12356</strong> / <strong>400-161-9995</strong>，或直接前往最近的医院急诊"
+  ]
+};
+
 function renderInterpretation(results){
-  const { totalScore, gsi, pst, factorResults } = results;
-  const elevatedFactors = factorResults.filter(f => f.score >= 2 && f.key !== "other");
-  const isPositive = totalScore > 160 || pst > 43 || elevatedFactors.length > 0;
+  const { totalScore, gsi, gsiNum, pst, factorResults, screenCriteria, isPositive, overall } = results;
 
-  let emoji, title, levelClass, levelText, interpHtml;
+  document.getElementById("resultEmoji").textContent = gradeHeader[overall.key].emoji;
+  document.getElementById("resultTitle").textContent = gradeHeader[overall.key].title;
 
-  if(!isPositive){
-    emoji = "🌿";
-    title = "整体状态不错呢";
-    levelClass = "good";
-    levelText = "💚 状态良好";
-    interpHtml = `
-      <div class="interp-level good">${levelText}</div>
-      <p class="interp-text">
-        你的总分是 <strong>${totalScore}分</strong>，各维度的得分都在比较舒适的范围内。
-        看起来这一周，你把自己照顾得还不错。<br><br>
-        这份平稳来之不易，继续保持那些让你舒服的小习惯吧——
-        也许是一杯热茶、一段散步、或者和信任的人聊聊天。
-        记住，照顾好自己，本身就是一种了不起的能力。
+  // 一、总体评估
+  let html = `
+    <div class="report-section">
+      <div class="report-title">① 总体评估</div>
+      <p class="report-text">
+        ${overallAssessText[overall.key].replace("{gsi}", gsi).replace("{total}", totalScore).replace("{pst}", pst)}
+        <span class="grade-pill sev-${overall.key}" style="margin-left:6px">${overall.label}</span>
       </p>
-    `;
+      <p class="report-note">分级依据：总均分（GSI＝总分÷90）＜2.00 为正常，2.00~2.99 为轻度，3.00~3.99 为中度，≥4.00 为重度。</p>
+    </div>`;
+
+  // 二、筛查结论
+  const hitCount = [screenCriteria.total, screenCriteria.pst, screenCriteria.factor].filter(Boolean).length;
+  html += `
+    <div class="report-section">
+      <div class="report-title">② 阳性筛查结论</div>
+      <p class="report-text">
+        按全国常模标准（总分＞160、阳性项目数＞43、任一因子分≥2，三项任一满足即为阳性），本次筛查结果为
+        <strong style="color:${isPositive ? "#cf3f3f" : "var(--mint-deep)"}">${isPositive ? "阳性（达到 " + hitCount + " 项）" : "阴性（三项均未达到）"}</strong>。
+        ${isPositive
+          ? "筛查阳性提示存在需要进一步了解的心理症状，<strong>但不等于患有某种疾病</strong>，是否构成临床诊断需要由精神（心理）科医生结合面谈综合判断。"
+          : "暂未发现需要进一步检查的明显信号，可结合自身主观感受综合看待。"}
+      </p>
+    </div>`;
+
+  // 三、突出症状维度
+  const elevated = factorResults.filter(f => f.score >= 2).sort((a,b) => b.score - a.score);
+  html += `
+    <div class="report-section">
+      <div class="report-title">③ 各维度分析</div>`;
+  if(elevated.length === 0){
+    html += `<p class="report-text">十个因子分均在 2 分以下，未见达到轻度及以上的突出症状维度；雷达图中你的得分整体位于全国常模参考线附近或以内。</p>`;
   } else {
-    const isSevere = totalScore > 250 || elevatedFactors.some(f => f.score >= 3);
-    const isModerate = totalScore > 200 || elevatedFactors.some(f => f.score >= 2.5);
+    html += `<ul class="report-factor-list">`;
+    elevated.forEach(f => {
+      const sev = getSeverity(f.score);
+      html += `
+        <li>
+          <span class="rf-name">${f.name}</span>
+          <span class="grade-pill sev-${sev.key}">${sev.label}</span>
+          <span class="rf-score">因子分 ${f.score.toFixed(2)}</span>
+          <span class="rf-note">${factorClinicalNote[f.key] || ""}</span>
+        </li>`;
+    });
+    html += `</ul>
+      <p class="report-note">判读：因子分＝该因子各条目平均分（1~5 分），≥2 分提示该维度可能存在症状，≥3 分为中度以上，≥4 分为重度；其余未列出维度均在正常范围。</p>`;
+  }
+  html += `</div>`;
 
-    if(isSevere){
-      emoji = "🌷";
-      title = "辛苦了，你承受了不少";
-      levelClass = "care";
-      levelText = "💛 想给自己一些关注";
-    } else if(isModerate){
-      emoji = "🌸";
-      title = "这一周，你好像有些不容易";
-      levelClass = "care";
-      levelText = "🧡 给自己一点温柔";
-    } else {
-      emoji = "🌱";
-      title = "有一些小情绪在冒泡";
-      levelClass = "gentle";
-      levelText = "💫 值得留意的小信号";
-    }
-
-    let factorDetailHtml = "";
-    if(elevatedFactors.length > 0){
-      factorDetailHtml = `
-        <p class="interp-text" style="margin-top:16px"><strong>可能需要多关照的方面：</strong></p>
-        <ul style="margin-top:10px;padding-left:0;list-style:none">
-      `;
-      elevatedFactors.forEach(f => {
-        let level = "略有波动";
-        if(f.score >= 3) level = "比较明显";
-        else if(f.score >= 2.5) level = "稍需留意";
-        factorDetailHtml += `
-          <li style="padding:6px 0;font-size:.9rem;color:var(--text-soft)">
-            <strong style="color:var(--text)">${f.name}</strong>（${f.score.toFixed(2)}分）— ${level}
-          </li>
-        `;
-      });
-      factorDetailHtml += "</ul>";
-      factorDetailHtml += `<p class="interp-text" style="margin-top:12px;font-size:.85rem">💡 点击上方每个维度，可查看具体的自我关怀建议</p>`;
-    }
-
-    interpHtml = `
-      <div class="interp-level ${levelClass}">${levelText}</div>
-      <p class="interp-text">
-        你的总分是 <strong>${totalScore}分</strong>，总均分 <strong>${gsi}</strong>。
-        ${totalScore > 160 ? "这个分数提示，这一周你可能在承受着一些心理上的压力。" : ""}
-        ${pst > 43 ? `有 <strong>${pst}</strong> 个方面你感受到了不同程度的不适。` : ""}
-        ${elevatedFactors.length > 0 ? `其中 <strong>${elevatedFactors.length}</strong> 个维度得分超过了2.0。` : ""}
-        <br><br>
-        ${isSevere
-          ? "看到这些数字，你可能会有些担心。但请先深呼吸——<strong>愿意面对就是改变的开始</strong>。这些信号在提醒你：是时候好好照顾自己了。如果你愿意，和专业的人聊聊会是很有力量的一步。"
-          : isModerate
-            ? "这些不适是身体和情绪在轻轻提醒你：该慢下来，给自己一些关怀了。试着做一些让你放松的事，如果持续不舒服，找人聊聊也很有帮助。"
-            : "每个人偶尔都会有些小情绪，这很正常。留意一下这些信号，给自己多一点休息和温柔，它们往往会慢慢淡去。"
-        }
+  // 四、抑郁专项评估
+  const dep = factorResults.find(f => f.key === "depression");
+  const depSev = getSeverity(dep.score);
+  html += `
+    <div class="report-section">
+      <div class="report-title">④ 情绪低落（抑郁）专项评估 <span class="grade-pill sev-${depSev.key}">${depSev.label} · ${dep.score.toFixed(2)}</span></div>
+      <p class="report-text">
+        ${depressionAssessText[depSev.key].replace("{s}", dep.score.toFixed(2))}
       </p>
-      ${factorDetailHtml}
-    `;
+      <p class="report-note">该因子共 13 个条目（第 5、14、15、20、22、26、29、30、31、32、54、71、79 题），反映与临床上抑郁症状群相联系的表现。</p>
+    </div>`;
+
+  // 五、高危条目预警
+  const suicideAns = answers[15];
+  const deathAns = answers[59];
+  if(suicideAns >= 2){
+    html += `
+      <div class="report-section">
+        <div class="report-title">⑤ 高危条目预警</div>
+        <div class="risk-alert">
+          <h5>⚠️ 关于第 15 题「想结束自己的生命」（你选择了：${optionLabels[suicideAns-1]}）</h5>
+          <p>这是一个需要<strong>认真对待</strong>的信号——它不代表你一定会做什么，但说明此刻你可能正承受着难以独自承担的痛苦。<br>
+          请<strong>不要独处</strong>，立刻拨打全国 24 小时统一心理援助热线 <strong>12356</strong> 或希望 24 热线 <strong>400-161-9995</strong>，也可以马上告知身边信任的家人或朋友，并尽快前往最近医院的急诊或精神（心理）科。你值得被帮助，也一定会有人愿意陪你走过这段路。</p>
+        </div>
+      </div>`;
+  } else if(deathAns >= 2){
+    html += `
+      <div class="report-section">
+        <div class="report-title">⑤ 需要留意的条目</div>
+        <div class="risk-watch">
+          🕯️ 你在第 59 题「想到死亡的事」选择了「${optionLabels[deathAns-1]}」。偶尔想到死亡并不罕见，但如果这类念头频繁出现、让你害怕，或开始出现伤害自己的具体想法，请立即拨打 <strong>12356</strong> 心理援助热线，并尽快寻求专业帮助。
+        </div>
+      </div>`;
   }
 
-  document.getElementById("resultEmoji").textContent = emoji;
-  document.getElementById("resultTitle").textContent = title;
-  document.getElementById("interpretationContent").innerHTML = interpHtml;
+  // 六、处理建议
+  const sectionNo = suicideAns >= 2 || deathAns >= 2 ? "⑥" : "⑤";
+  html += `
+    <div class="report-section">
+      <div class="report-title">${sectionNo} 处理建议</div>
+      <ul class="report-advice">
+        ${gradeAdvice[overall.key].map(a => `<li>${a}</li>`).join("")}
+      </ul>
+      <p class="report-closing">
+        数字只是一扇窗，不是你整个人的样子。无论结果如何，谢谢你愿意诚实地看见自己——照顾好自己，本身就是一种了不起的能力。
+      </p>
+    </div>`;
+
+  document.getElementById("interpretationContent").innerHTML = html;
 }
 
 // ============ 呼吸练习 ============
@@ -2121,8 +2670,9 @@ function showHistory(){
     const dateStr = `${date.getMonth()+1}月${date.getDate()}日 ${date.getHours().toString().padStart(2,'0')}:${date.getMinutes().toString().padStart(2,'0')}`;
     const elevated = h.factors.filter(f => f.score >= 2);
     const tagsHtml = elevated.slice(0, 4).map(f =>
-      `<span class="history-factor-tag ${f.score>=2.5?'warn':''}">${f.name}</span>`
+      `<span class="history-factor-tag ${f.score>=3?'warn':''}">${f.name}</span>`
     ).join("");
+    const g = getSeverity(parseFloat(h.gsi));
     return `
       <div class="history-item" onclick="viewHistoryItem(${idx})">
         <div class="history-item-top">
@@ -2130,7 +2680,8 @@ function showHistory(){
           <span class="history-score">${h.totalScore}分</span>
         </div>
         <div class="history-item-factors">
-          ${elevated.length > 0 ? tagsHtml : '<span class="history-factor-tag">状态良好</span>'}
+          <span class="grade-pill sev-${g.key}" style="margin-right:6px">${g.label}</span>
+          ${elevated.length > 0 ? tagsHtml : '<span class="history-factor-tag">未见突出维度</span>'}
         </div>
       </div>
     `;
@@ -2170,7 +2721,7 @@ function renderTrendChart(history){
       responsive: true,
       maintainAspectRatio: false,
       scales: {
-        y: { min: 0, max: 3, ticks: { color: textSoft + "80", font: { size: 10 } }, grid: { color: "rgba(196,154,108,.1)" } },
+        y: { min: 1, max: 5, ticks: { color: textSoft + "80", font: { size: 10 }, stepSize:1 }, grid: { color: "rgba(196,154,108,.1)" } },
         x: { ticks: { color: textSoft + "80", font: { size: 10 } }, grid: { display: false } }
       },
       plugins: {
@@ -2200,6 +2751,7 @@ function viewHistoryItem(idx){
   document.getElementById("resultScreen").style.display = "block";
 
   renderSummary(results);
+  renderVerdict(results);
   renderRadarChart(results);
   renderFactorList(results);
   renderInterpretation(results);
@@ -2217,18 +2769,22 @@ function generateShareCard(){
   const results = calculateResults();
   const elevated = results.factorResults.filter(f => f.score >= 2 && f.key !== "other");
   const tagsHtml = elevated.slice(0, 4).map(f => `<span class="sc-tag">${f.name}</span>`).join("");
+  const grade = getSeverity(results.gsiNum);
 
   const date = new Date();
   const dateStr = `${date.getFullYear()}.${(date.getMonth()+1).toString().padStart(2,'0')}.${date.getDate().toString().padStart(2,'0')}`;
 
   document.getElementById("shareCard").innerHTML = `
-    <div class="sc-emoji">${results.totalScore > 160 ? "🌷" : "🌿"}</div>
+    <div class="sc-emoji">${grade.key === "normal" ? "🌿" : grade.key === "mild" ? "🌱" : grade.key === "moderate" ? "🌸" : "🌷"}</div>
     <h2>SCL-90 心理健康自测</h2>
     <p style="font-size:.85rem;color:#8a7e72;margin-bottom:8px">花了点时间，和自己对话</p>
     <div class="sc-score">${results.totalScore}</div>
     <div class="sc-label">总分 · 总均分 ${results.gsi}</div>
+    <div style="margin:10px 0 4px">
+      <span class="sc-tag" style="background:${grade.bar}22;color:${grade.color};font-weight:700">严重程度：${grade.label}</span>
+    </div>
     <div class="sc-factors">
-      ${elevated.length > 0 ? tagsHtml : '<span class="sc-tag" style="background:rgba(116,198,157,.2);color:#74c69d">状态良好</span>'}
+      ${elevated.length > 0 ? tagsHtml : '<span class="sc-tag" style="background:rgba(116,198,157,.2);color:#74c69d">未见突出症状维度</span>'}
     </div>
     <div class="sc-footer">
       🌸 好好照顾自己 · ${dateStr}
@@ -2309,5 +2865,7 @@ document.addEventListener("click", (e) => {
   }
 });
 </script>
-</body>
-</html>
+
+
+
+</body></html>
