@@ -1009,24 +1009,24 @@
       </ul>
     </div>
 
-    <div class="history-card" id="historyCard" style="display: block;" onclick="showHistory()">
+    <div class="history-card" id="historyCard" style="display: none;" onclick="showHistory()">
       <div class="history-left">
         <div class="history-icon">📊</div>
         <div class="history-info">
           <div class="h-title">查看历史记录</div>
-          <div class="h-desc" id="historyCount">你有 1 次测试记录</div>
+          <div class="h-desc" id="historyCount">你有 0 次测试记录</div>
         </div>
       </div>
       <div class="history-arrow">→</div>
     </div>
 
-    <div id="resumeCard" style="display: block;">
+    <div id="resumeCard" style="display: none;">
       <div class="history-card" onclick="resumeQuiz()">
         <div class="history-left">
           <div class="history-icon">📝</div>
           <div class="history-info">
             <div class="h-title">继续上次答题</div>
-            <div class="h-desc" id="resumeProgress">已完成 9 / 90 题</div>
+            <div class="h-desc" id="resumeProgress">已完成 0 / 90 题</div>
           </div>
         </div>
         <div class="history-arrow">→</div>
@@ -1429,19 +1429,8 @@
         <canvas id="trendChart"></canvas>
       </div>
     </div>
-    <div id="historyList">
-      <div class="history-item" onclick="viewHistoryItem(0)">
-        <div class="history-item-top">
-          <span class="history-date">10月22日 10:31</span>
-          <span class="history-score">299分</span>
-        </div>
-        <div class="history-item-factors">
-          <span class="grade-pill sev-moderate" style="margin-right:6px">中度</span>
-          <span class="history-factor-tag warn">躯体化</span><span class="history-factor-tag warn">强迫倾向</span><span class="history-factor-tag warn">人际敏感</span><span class="history-factor-tag warn">情绪低落</span>
-        </div>
-      </div>
-    </div>
-    <div class="history-empty" id="historyEmpty" style="display: none;">
+    <div id="historyList"></div>
+    <div class="history-empty" id="historyEmpty">
       <div class="emoji">📝</div>
       <p>还没有测试记录</p>
       <p style="font-size:.85rem;margin-top:6px">完成一次测试后，结果会自动保存在这里</p>
