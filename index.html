@@ -1446,6 +1446,9 @@
       <p>还没有测试记录</p>
       <p style="font-size:.85rem;margin-top:6px">完成一次测试后，结果会自动保存在这里</p>
     </div>
+    <div style="margin-top:24px;text-align:center">
+      <button class="btn btn-ghost" style="font-size:.82rem;color:var(--text-light)" onclick="clearAllData()">🗑️ 清除所有本地数据</button>
+    </div>
   </section>
 
   <div class="site-footer-brand">
@@ -2832,6 +2835,44 @@ function backToIntro(){
   document.getElementById("historyScreen").style.display = "none";
   document.getElementById("introScreen").style.display = "block";
   checkResumeAndHistory();
+}
+
+// ============ 清除所有本地数据 ============
+function clearAllData(){
+  showConfirm(
+    "清除所有本地数据？",
+    "这将删除所有历史记录、答题进度和主题设置。数据只保存在你的设备上，删除后无法恢复。",
+    () => {
+      closeConfirm();
+      try{
+        localStorage.removeItem("scl90_answers");
+        localStorage.removeItem("scl90_history");
+        localStorage.removeItem("scl90_theme");
+        localStorage.removeItem("scl90_themeBtnPos");
+      }catch(e){}
+      answers.fill(0);
+      currentQ = 1;
+      if(radarChartInstance){ radarChartInstance.destroy(); radarChartInstance = null; }
+      if(trendChartInstance){ trendChartInstance.destroy(); trendChartInstance = null; }
+      // 重置主题为亮色
+      document.documentElement.setAttribute("data-theme","light");
+      const themeBtn = document.getElementById("themeBtn");
+      if(themeBtn) themeBtn.textContent = "🌙";
+      // 重置浮动按钮位置
+      if(themeBtn){
+        themeBtn.style.left = "auto";
+        themeBtn.style.top = "auto";
+        themeBtn.style.right = "20px";
+      }
+      // 刷新历史记录页
+      const historyScreen = document.getElementById("historyScreen");
+      if(getComputedStyle(historyScreen).display !== "none"){
+        showHistory();
+      }
+      showToast("已清除所有本地数据 ✨");
+    },
+    "确认清除"
+  );
 }
 
 // ============ 分享卡片 ============
